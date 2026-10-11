@@ -86,7 +86,7 @@ export function About() {
       <div className="site-container">
         <div className="about-layout">
           <div className="flex flex-col items-start gap-7">
-            <p className="eyebrow text-primary">ПромТехника XG / О нас</p>
+            <p className="eyebrow text-primary">Спецтехника XGMA / О нас</p>
             <h2 className="display-heading">ТЯЖЁЛАЯ ТЕХНИКА.<br />ЧЕЛОВЕЧЕСКИЙ<br /><span className="text-primary">ПОДХОД.</span></h2>
             <p className="max-w-md text-base leading-relaxed text-muted-foreground">Мы говорим на языке ваших задач. Что грузить, сколько копать, где работать — а не просто какой погрузчик купить.</p>
             <p className="max-w-md text-base leading-relaxed text-muted-foreground">{site.name} — поставка и сервис техники XGMA. От первой консультации до следующего техобслуживания у вас есть команда, к которой можно обратиться.</p>
