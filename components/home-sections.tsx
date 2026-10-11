@@ -74,7 +74,7 @@ export function CatalogPreview() {
                 <h3 className="font-heading text-xl font-bold uppercase">{c.name}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">{c.description}</p>
                 <p className="mt-auto pt-2 font-heading text-sm font-bold tracking-wider text-accent">
-                  {models.map((m) => m.model).join(' · ')}
+                  {models.length} {models.length === 1 ? 'модель' : models.length < 5 ? 'модели' : 'моделей'}
                 </p>
               </div>
             </Link>

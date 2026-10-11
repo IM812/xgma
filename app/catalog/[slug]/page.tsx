@@ -35,7 +35,7 @@ export default async function MachinePage({ params }: { params: Promise<{ slug: 
       <div className="grid gap-10 md:grid-cols-2">
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <Image
-            src={category?.image || '/placeholder.svg'}
+            src={machine.image || category?.image || '/placeholder.svg'}
             alt={`${category?.name} XGMA ${machine.model}`}
             fill
             priority
@@ -56,7 +56,8 @@ export default async function MachinePage({ params }: { params: Promise<{ slug: 
             ))}
           </dl>
           <p className="text-xs leading-relaxed text-muted-foreground">
-            Характеристики ориентировочные и зависят от комплектации. Точные данные и цену уточняйте по телефону{' '}
+            Основные характеристики приведены по данным производителя и могут меняться в зависимости от комплектации.
+            Полную спецификацию и цену уточняйте по телефону{' '}
             <a href={site.phoneHref} className="font-semibold text-foreground">
               {site.phone}
             </a>

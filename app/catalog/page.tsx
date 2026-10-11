@@ -5,7 +5,8 @@ import { categories, machines } from '@/lib/catalog'
 
 export const metadata: Metadata = {
   title: 'Каталог техники XGMA',
-  description: 'Фронтальные погрузчики, экскаваторы, автогрейдеры, катки и вилочные погрузчики XGMA.',
+  description:
+    'Полный модельный ряд XGMA: фронтальные погрузчики N и H серий, экскаваторы, дорожная и складская техника, карьерные самосвалы.',
 }
 
 export default function CatalogPage() {
