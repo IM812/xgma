@@ -1,9 +1,9 @@
 export const site = {
   name: 'Спецтехника XGMA',
   tagline: 'Поставка и сервис техники XGMA в России',
-  phone: '+86-592-2360090',
-  phoneHref: 'tel:+865922360090',
-  email: 'info@promtehnika-xg.ru',
+  phone: '+7 (800) 000-00-00',
+  phoneHref: 'tel:+78000000000',
+  email: 'info@xgma-spectehnika.ru',
   hours: 'Пн–Пт, 9:00–18:00 (МСК)',
   city: 'Москва',
 }
