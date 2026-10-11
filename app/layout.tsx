@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   },
   description:
     'Каталог техники XGMA с поиском по моделям и характеристикам. Погрузчики, экскаваторы, дорожная техника. Отдельные разделы сервиса, запчастей, лизинга и полезных материалов.',
+  icons: { icon: '/brand/xgma-logo.png', apple: '/brand/xgma-logo.png' },
   generator: 'v0.app',
 }
 

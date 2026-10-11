@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react'
 import { weeklyTopics } from '@/lib/articles'
 import { site } from '@/lib/site'
 import { RequestForm } from '@/components/request-form'
+import { SectionHead } from '@/components/section-head'
 
 export function ServiceStrip() {
   return (
@@ -59,16 +60,19 @@ export function Services() {
 
 export function LeasingBand() {
   return (
-    <section id="leasing" className="leasing-section scroll-mt-24">
+    <section id="leasing" className="scroll-mt-24 pb-16 pt-4 lg:pb-24">
       <div className="site-container">
-        <div className="leasing-content">
-          <div className="flex flex-col gap-6">
-            <p className="eyebrow">Финансовые решения</p>
-            <h2 className="display-heading">ТЕХНИКА — В РАБОТУ.<br />КАПИТАЛ — В ДЕЛО.</h2>
-          </div>
-          <div className="flex flex-col items-start gap-6">
-            <p className="max-w-sm text-base leading-relaxed">Не откладывайте большие планы. Подберём лизинг с учётом задач бизнеса и комфортной финансовой нагрузки.</p>
-            <Link href="/leasing" className="flex w-full max-w-sm items-center justify-between border-b border-foreground pb-4 text-base font-semibold">Рассчитать лизинг <ArrowUpRight className="size-6" aria-hidden="true" /></Link>
+        <div className="relative isolate overflow-hidden rounded-lg bg-foreground text-background">
+          <Image src="/photos/loaders-lineup.jpg" alt="" fill sizes="100vw" className="-z-20 object-cover object-[60%_75%]" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/20 max-md:to-foreground/60" aria-hidden="true" />
+          <div className="flex flex-col items-start gap-8 px-6 py-12 sm:px-12 md:py-16 lg:px-16 lg:py-20">
+            <p className="eyebrow text-accent"><span className="size-[7px] shrink-0 bg-accent" aria-hidden="true" />Финансовые решения</p>
+            <h2 className="display-heading max-w-2xl">ТЕХНИКА — В РАБОТУ. <span className="text-accent">КАПИТАЛ — В ДЕЛО.</span></h2>
+            <p className="max-w-md text-base leading-relaxed text-background/80">Не откладывайте большие планы. Подберём лизинг с учётом задач бизнеса и комфортной финансовой нагрузки.</p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link href="/leasing" className="flex items-center gap-8 rounded-lg bg-accent px-6 py-4 text-sm font-semibold text-accent-foreground transition-colors hover:bg-background">Рассчитать лизинг<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
+              <Link href="/contacts#request" className="rounded-lg border border-background/40 px-6 py-4 text-sm font-semibold transition-colors hover:bg-background hover:text-foreground">Связаться с нами</Link>
+            </div>
           </div>
         </div>
       </div>
@@ -82,7 +86,7 @@ export function About() {
       <div className="site-container">
         <div className="about-layout">
           <div className="flex flex-col items-start gap-7">
-            <p className="eyebrow text-primary">ПромТехника XG / О нас</p>
+            <p className="eyebrow text-primary">Спецтехника XGMA / О нас</p>
             <h2 className="display-heading">ТЯЖЁЛАЯ ТЕХНИКА.<br />ЧЕЛОВЕЧЕСКИЙ<br /><span className="text-primary">ПОДХОД.</span></h2>
             <p className="max-w-md text-base leading-relaxed text-muted-foreground">Мы говорим на языке ваших задач. Что грузить, сколько копать, где работать — а не просто какой погрузчик купить.</p>
             <p className="max-w-md text-base leading-relaxed text-muted-foreground">{site.name} — поставка и сервис техники XGMA. От первой консультации до следующего техобслуживания у вас есть команда, к которой можно обратиться.</p>
@@ -103,18 +107,21 @@ export function About() {
 export function ArticlesPreview() {
   const featured = weeklyTopics(3)
   return (
-    <section className="section-space border-t border-border">
+    <section className="section-space">
       <div className="site-container">
-        <div className="section-heading">
-          <div className="flex flex-col gap-5"><p className="eyebrow text-primary">Практика и экспертиза</p><h2 className="display-heading">ПО СУЩЕСТВУ.</h2></div>
-          <Link href="/articles" className="text-link">Журнал XGMA <ArrowUpRight className="size-5" aria-hidden="true" /></Link>
-        </div>
-        <div>
+        <SectionHead eyebrow="Практика и экспертиза" title="ПО СУЩЕСТВУ." action={{ href: '/articles', label: 'Журнал XGMA' }} />
+        <div className="grid gap-5 md:grid-cols-3 md:gap-6">
           {featured.map((article) => (
-            <Link key={article.slug} href={`/articles/${article.slug}`} className="article-row group">
-              <span className="text-sm text-muted-foreground">{article.rubric}</span>
-              <div className="flex flex-col gap-3"><h3 className="max-w-3xl text-pretty font-heading text-2xl font-semibold leading-tight md:text-3xl">{article.title}</h3><p className="line-clamp-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{article.brief}</p></div>
-              <ArrowUpRight className="size-6 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden="true" />
+            <Link key={article.slug} href={`/articles/${article.slug}`} className="group flex flex-col gap-6 rounded-lg border border-border bg-background p-6 transition-colors hover:border-primary sm:p-8">
+              <span className="w-fit rounded-full bg-muted px-3 py-1 text-xs font-medium">{article.rubric}</span>
+              <div className="flex flex-col gap-3">
+                <h3 className="text-pretty font-heading text-2xl font-semibold leading-tight">{article.title}</h3>
+                <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">{article.brief}</p>
+              </div>
+              <span className="mt-auto flex items-center justify-between border-t border-border pt-5 text-sm font-semibold text-primary">
+                Читать
+                <ArrowUpRight className="size-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+              </span>
             </Link>
           ))}
         </div>

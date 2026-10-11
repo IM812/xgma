@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useId, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -27,6 +28,10 @@ export function RequestForm({ defaultSubject = '', defaultMessage = '' }: { defa
       <Field><FieldLabel htmlFor={`${id}-subject`}>Модель или вопрос</FieldLabel><Input id={`${id}-subject`} name="subject" defaultValue={defaultSubject} maxLength={250} placeholder="Например, XG955N для карьера" /></Field>
       <Field><FieldLabel htmlFor={`${id}-message`}>Расскажите о задаче</FieldLabel><Textarea id={`${id}-message`} name="message" defaultValue={defaultMessage} rows={4} maxLength={3000} placeholder="Город, условия работы, желаемый срок поставки…" /></Field>
     </FieldGroup>
+    <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+      <input type="checkbox" name="consent" required className="mt-1 size-4 shrink-0 accent-primary" />
+      <span>Я даю согласие на обработку персональных данных в соответствии с <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">политикой конфиденциальности</Link> (ФЗ № 152-ФЗ).</span>
+    </label>
     <Button type="submit" size="lg">Подготовить письмо<ArrowUpRight data-icon="inline-end" /></Button>
     <p className="text-sm leading-relaxed text-muted-foreground" aria-live="polite">{prepared ? `Письмо подготовлено. Отправьте его в открывшемся почтовом приложении. Если приложение не открылось, напишите на ${site.email}.` : 'Форма откроет ваше почтовое приложение с готовым письмом. Заявка будет отправлена только после подтверждения в приложении.'}</p>
   </form>

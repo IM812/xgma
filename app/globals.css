@@ -149,6 +149,9 @@
   .ribbon-inner a { display: flex; align-items: center; justify-content: space-between; gap: 28px; font-size: 16px; font-weight: 500; }
   .ribbon-inner a:hover { color: var(--accent); }
   .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; margin-bottom: 48px; }
+  .section-title { font-family: var(--font-roboto-condensed), sans-serif; font-size: clamp(34px, 3.8vw, 56px); font-weight: 700; letter-spacing: -.025em; line-height: 1.02; text-wrap: balance; }
+  .home-hero-title { font-family: var(--font-roboto-condensed), sans-serif; font-size: clamp(44px, 9vw, 80px); font-weight: 700; letter-spacing: -.035em; line-height: .98; }
+  @media (min-width: 1024px) { .home-hero-title { font-size: clamp(52px, 5.2vw, 80px); } }
   .display-heading { font-family: var(--font-roboto-condensed), sans-serif; font-size: clamp(42px, 5vw, 76px); font-weight: 700; letter-spacing: -.03em; line-height: 1; text-wrap: balance; }
   .equipment-selector { display: flex; border-bottom: 1px solid var(--border); }
   .equipment-choice { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex: 1; padding: 22px 24px; border: 1px solid var(--border); border-bottom: 0; margin-right: -1px; color: var(--muted-foreground); background: var(--background); font-size: 16px; font-weight: 500; cursor: pointer; transition: background .2s, color .2s; }
@@ -166,12 +169,7 @@
   .service-row summary::-webkit-details-marker { display: none; }
   .service-row summary svg { transition: transform .25s; }
   .service-row[open] summary svg { transform: rotate(45deg); }
-  .leasing-section { position: relative; overflow: hidden; background: var(--accent); color: var(--accent-foreground); }
-  .leasing-content { display: grid; grid-template-columns: 1.4fr 1fr; align-items: end; gap: 80px; padding-block: 72px; }
   .about-layout { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 80px; }
-  .article-row { display: grid; grid-template-columns: 160px 1fr 40px; align-items: center; gap: 40px; padding-block: 30px; border-top: 1px solid var(--border); transition: color .2s; }
-  .article-row:last-child { border-bottom: 1px solid var(--border); }
-  .article-row:hover { color: var(--primary); }
   .footer-wordmark { font-size: clamp(88px, 20vw, 300px); font-weight: 800; line-height: .8; letter-spacing: -.065em; }
 }
 
@@ -214,7 +212,6 @@
   .equipment-details h3 { font-size: 34px; }
   .model-shortlist { flex-direction: column; gap: 16px; }
   .service-layout, .about-layout { grid-template-columns: 1fr; gap: 48px; }
-  .leasing-content { gap: 40px; }
 }
 @media (max-width: 639px) {
   .site-container { width: calc(100% - 40px); }
@@ -252,10 +249,7 @@
   .equipment-details h3 { font-size: 40px; }
   .equipment-details > div:nth-child(2) p:first-child { font-size: 48px; }
   .equipment-photo-label { left: 16px; bottom: 16px; padding: 8px 10px; font-size: 14px; }
-  .leasing-content { grid-template-columns: 1fr; gap: 32px; padding-block: 48px; }
   .service-row summary { padding-block: 24px; }
-  .article-row { grid-template-columns: 1fr 28px; gap: 12px; padding-block: 24px; }
-  .article-row > span:first-child { grid-column: 1 / -1; }
 }
 @layer components {
   .masthead { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 82px; }
@@ -268,39 +262,8 @@
   .section-nav-link { position: relative; flex-shrink: 0; padding-block: 16px; font-size: 14px; font-weight: 500; color: var(--muted-foreground); }
   .section-nav-link:hover, .section-nav-link.is-current { color: var(--primary); }
   .section-nav-link.is-current::after { position: absolute; content: ''; bottom: 0; inset-inline: 0; height: 3px; background: var(--primary); }
-  .showroom-shell { background: var(--muted); color: var(--foreground); padding-bottom: 0; }
-  .showroom-top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px; }
-  .showroom { display: grid; grid-template-columns: .85fr 1.65fr; }
-  .showroom-intro { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 24px; padding: 32px 32px 32px 0; }
-  .showroom-heading { font-size: clamp(40px, 4.1vw, 68px); font-weight: 700; letter-spacing: -.035em; line-height: .98; }
-  .showroom-heading > span { font-size: .66em; letter-spacing: -.045em; }
-  .showroom-inventory { display: flex; gap: 36px; }
-  .showroom-inventory > div { display: flex; flex-direction: column; gap: 4px; }
-  .showroom-inventory strong { font-family: var(--font-heading); font-size: 32px; font-weight: 500; }
-  .showroom-inventory span { color: var(--muted-foreground); font-size: 14px; }
-  .showroom-display { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 490px; overflow: hidden; border-radius: var(--radius); background: var(--background); color: var(--foreground); }
-  .showroom-display-top, .showroom-display-bottom { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 24px 30px; }
-  .showroom-display-top { font-size: 14px; }
-  .showroom-display-bottom { border-top: 1px solid var(--border); background: var(--background); color: var(--foreground); }
-  .showroom-photo { position: absolute; left: 0; bottom: 100px; width: 100%; height: 68%; object-fit: contain; padding: 12px 24px; }
   .showroom-next { display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; flex-shrink: 0; background: var(--accent); color: var(--accent-foreground); transition: transform .2s; }
   .showroom-next:hover { transform: rotate(-8deg); }
-  .showroom-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 20px; font-size: 14px; }
-  .showroom-foot > span { color: var(--muted-foreground); }
-  .catalog-gateway { display: flex; flex-direction: column; gap: 36px; padding-block: 64px; }
-  .gateway-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-  .gateway-item { display: flex; flex-direction: column; gap: 20px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); color: var(--foreground); transition: border-color .2s; }
-  .gateway-item:hover { border-color: var(--primary); }
-  .gateway-photo { position: relative; aspect-ratio: 1.45; overflow: hidden; border-radius: calc(var(--radius) / 2); background: var(--muted); color: var(--foreground); }
-  .gateway-photo .catalog-product-image { padding: 16px; }
-  .gateway-other { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 28px; }
-  .ownership-section { background: var(--muted); color: var(--foreground); padding-block: 72px; }
-  .ownership-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-  .ownership-photo { position: relative; min-height: 540px; }
-  .ownership-caption { position: absolute; inset: auto 20px 20px; display: flex; flex-direction: column; gap: 12px; background: var(--background); color: var(--foreground); padding: 20px; font-size: 14px; }
-  .ownership-content { display: flex; flex-direction: column; gap: 32px; }
-  .ownership-link { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 20px; border-top: 1px solid var(--border); }
-  .ownership-link:hover { color: var(--primary); }
   .page-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding-block: 24px; font-size: 14px; color: var(--muted-foreground); }
   .page-breadcrumb a:hover { color: var(--primary); }
   .page-title { font-family: var(--font-heading); font-size: clamp(40px, 5vw, 68px); font-weight: 600; letter-spacing: -.03em; line-height: 1.06; text-wrap: balance; }
@@ -343,8 +306,8 @@
   .model-image { position: relative; min-height: 460px; overflow: hidden; border-radius: var(--radius); background: var(--muted); }
   .model-image .catalog-product-image { padding: 40px 32px 72px; }
   .industrial-button, .header-cta, .catalog-trigger, .catalog-sort { border-radius: var(--radius); }
-  .support-hero, .contact-layout, .lease-calculator, .lease-output, .model-spec-strip, .company-photo, .ownership-photo { overflow: hidden; border-radius: var(--radius); }
-  .inquiry-layout h2, .ownership-content h2 { letter-spacing: -.025em; }
+  .support-hero, .contact-layout, .lease-calculator, .lease-output, .model-spec-strip, .company-photo { overflow: hidden; border-radius: var(--radius); }
+  .inquiry-layout h2 { letter-spacing: -.025em; }
   .model-spec-strip { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--foreground); color: var(--background); }
   .model-spec-strip > div { display: flex; flex-direction: column; gap: 10px; padding: 30px; border-right: 1px solid color-mix(in srgb, var(--background) 20%, transparent); }
   .model-spec-strip dt { font-size: 14px; opacity: .7; }
@@ -374,36 +337,10 @@
   .machine-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .catalog-layout { grid-template-columns: 220px minmax(0, 1fr); gap: 24px; }
   .visible-navigation { gap: 22px; }
-  .showroom { grid-template-columns: .85fr 1.3fr; }
-  .showroom-heading { font-size: 48px; }
-  .showroom-display { min-height: 470px; }
-  .showroom-display-top { font-size: 14px; padding: 20px; }
-  .showroom-display-top > span:last-child { display: none; }
-  .showroom-display-bottom { padding: 20px; }
-  .ownership-layout, .model-hero, .inquiry-layout { gap: 36px; }
+  .model-hero, .inquiry-layout { gap: 36px; }
 }
 @media (max-width: 1023px) {
-  .showroom { grid-template-columns: 1fr; }
-  .showroom-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; padding: 8px 0 28px; }
-  .showroom-intro > span { display: none; }
-  .showroom-heading { grid-row: span 2; font-size: 44px; }
-  .showroom-inventory { display: none; }
-  .showroom-intro > .industrial-button { padding: 15px 20px; }
-  .showroom-display { min-height: 320px; }
-  .showroom-photo { bottom: 80px; height: 64%; }
-  .showroom-display-top { padding-block: 16px; }
-  .showroom-display-bottom { padding-block: 16px; }
-  .showroom-display-bottom strong { font-size: 24px; }
   .showroom-next { width: 44px; height: 44px; }
-  .showroom-foot { padding-block: 18px; }
-  .gateway-grid { gap: 14px; }
-  .gateway-item { padding: 18px; gap: 18px; }
-  .gateway-item h3 { font-size: 27px; }
-  .gateway-item > div:first-child > span { font-size: 14px; }
-  .gateway-item > span { flex-wrap: wrap; gap: 8px; }
-  .ownership-layout { gap: 28px; }
-  .ownership-photo { min-height: 490px; }
-  .ownership-content .display-heading { font-size: 46px; }
   .catalog-layout { grid-template-columns: minmax(0, 1fr); }
   .catalog-sidebar { position: static; }
   .catalog-sidebar nav { display: none; }
@@ -428,34 +365,6 @@
   .catalog-trigger > svg:first-child { display: none; }
   .visible-navigation { gap: 22px; }
   .section-nav-link { padding-block: 13px; }
-  .showroom-top { padding-block: 18px; }
-  .showroom-top .eyebrow { font-size: 14px; }
-  .showroom-intro { grid-template-columns: 1fr; gap: 18px; padding-bottom: 24px; }
-  .showroom-heading { font-size: 48px; grid-row: auto; }
-  .showroom-heading br { display: none; }
-  .showroom-heading > span { display: block; font-size: .77em; }
-  .showroom-intro > p { max-width: none; }
-  .showroom-intro > a { width: 100%; padding: 16px 20px; }
-  .showroom-display { min-height: 290px; }
-  .showroom-photo { bottom: 82px; height: 60%; width: 100%; left: 0; padding: 8px 16px; }
-  .showroom-display-top { padding: 16px; }
-  .showroom-display-bottom { padding: 16px; gap: 12px; }
-  .showroom-display-bottom strong { font-size: 20px; }
-  .showroom-display-bottom span span { font-size: 14px; }
-  .showroom-foot > span { display: none; }
-  .showroom-foot { justify-content: flex-end; }
-  .catalog-gateway { padding-block: 44px; gap: 28px; }
-  .gateway-grid { grid-template-columns: 1fr; }
-  .gateway-item { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; padding: 20px; }
-  .gateway-item > div:first-child { grid-column: 1 / -1; }
-  .gateway-item h3 { font-size: 30px; align-self: center; }
-  .gateway-photo { aspect-ratio: 1.1; }
-  .gateway-item > span { grid-column: 1 / -1; }
-  .gateway-other { align-items: start; flex-direction: column; gap: 16px; }
-  .ownership-section { padding-block: 40px; }
-  .ownership-layout { grid-template-columns: 1fr; gap: 36px; }
-  .ownership-photo { min-height: 340px; }
-  .ownership-content .display-heading { font-size: 46px; }
   .catalog-page-head { flex-direction: column; padding-bottom: 28px; }
   .catalog-page-head p { max-width: none; }
   .catalog-page-head h1 { font-size: 44px; }
