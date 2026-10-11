@@ -21,7 +21,7 @@ export const categories: Category[] = [
   {
     slug: 'n-series',
     name: 'Погрузчики N-серии',
-    image: '/images/wheel-loader.png',
+    image: '/images/loader-n.png',
     description: 'Новое поколение фронтальных погрузчиков XGMA: обновлённая кабина, экономичные двигатели, ковши от 1,8 до 4 м³.',
   },
   {
