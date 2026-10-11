@@ -40,7 +40,7 @@ export function CatalogBrowser({ categorySlug, initialQuery = '' }: { categorySl
       </div>
       {visible.length ? <div className="machine-grid">{visible.map(machine => <MachineCard key={machine.slug} machine={machine} />)}</div> : <section className="flex flex-col items-start gap-5 bg-muted p-8 text-foreground"><h2 className="font-heading text-3xl font-semibold">Ничего не нашлось</h2><p className="text-sm leading-relaxed text-muted-foreground">Попробуйте другое название или сбросьте фильтр мощности.</p><Button variant="outline" onClick={reset}>Сбросить поиск и фильтры</Button></section>}
       {pages > 1 && <nav aria-label="Страницы каталога" className="flex items-center justify-between gap-4 py-8"><Button variant="outline" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}><ArrowLeft data-icon="inline-start" />Назад</Button><span className="text-sm">{currentPage} / {pages}</span><Button variant="outline" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>Далее<ArrowRight data-icon="inline-end" /></Button></nav>}
-      <p className="pt-6 text-sm leading-relaxed text-muted-foreground">Цена, наличие и комплектация уточняются по запросу. Фотографии типа техники не заменяют фото конкретной комплектации.</p>
+      <p className="pt-6 text-sm leading-relaxed text-muted-foreground">Цена, наличие и комплектация — по запросу. Для части позиций показаны фото представителей серии или отмеченные иллюстрации типа техники; точное фото согласуем перед заказом.</p>
     </div>
   </div>
 }

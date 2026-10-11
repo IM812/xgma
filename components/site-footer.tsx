@@ -34,6 +34,7 @@ export function SiteFooter() {
           <div className="flex flex-col justify-between gap-4 lg:flex-row"><p>{`© ${new Date().getFullYear()} ${site.name}`}</p><p className="max-w-xl">Сайт дилера. XGMA — торговая марка Xiamen XGMA Machinery Co., Ltd.</p></div>
           <details>
             <summary className="w-fit cursor-pointer underline underline-offset-4">Источники фотографий</summary>
+            <p className="max-w-2xl pt-4">Предметные фотографии техники — <a href="https://www.global-ce.com/brand/xgma/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Global-CE</a> и <a href="https://xgma.ru/frontal_loaders" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">XGMA.ru</a>. Права принадлежат правообладателям. Для самосвалов, штабелёров и пожарной техники использованы отдельно отмеченные сгенерированные иллюстрации типа, не фотографии конкретных моделей.</p>
             <ul className="flex flex-col gap-2 pt-4">
               {photoCredits.map((photo) => <li key={photo.file}><a href={photo.source} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-ink-foreground">{photo.title}</a>{` — ${photo.author}, `}<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{photo.license}</a></li>)}
             </ul>

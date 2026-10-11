@@ -1,3 +1,5 @@
+import { catalogImages } from '@/lib/catalog-images'
+
 export type Category = {
   slug: string
   name: string
@@ -13,7 +15,7 @@ export type Machine = {
   category: string
   summary: string
   specs: Spec[]
-  /** Real photo of this exact model (see lib/photos.ts for credits) */
+  /** Catalog image; exact model, series reference, or labeled illustration in catalog-images.ts. */
   image?: string
 }
 
@@ -21,13 +23,13 @@ export const categories: Category[] = [
   {
     slug: 'n-series',
     name: 'Погрузчики N-серии',
-    image: '/photos/loader-957.jpg',
+    image: '/photos/catalog/xg956n.webp',
     description: 'Новое поколение фронтальных погрузчиков XGMA: обновлённая кабина, экономичные двигатели, ковши от 1,8 до 4 м³.',
   },
   {
     slug: 'wheel-loaders',
     name: 'Фронтальные погрузчики H-серии',
-    image: '/photos/loaders-lineup.jpg',
+    image: '/photos/catalog/xg955h.webp',
     description: 'Проверенная H-серия для карьеров, баз сыпучих материалов, стройки и коммунальных работ.',
   },
   {
@@ -48,7 +50,7 @@ export const categories: Category[] = [
   {
     slug: 'excavators',
     name: 'Гусеничные экскаваторы',
-    image: '/photos/excavator-822fl.jpg',
+    image: '/photos/catalog/xg825el.webp',
     description: 'Линейка от мини-экскаваторов 6 т до карьерных машин массой 125 т.',
   },
   {
@@ -64,7 +66,7 @@ export const categories: Category[] = [
   {
     slug: 'road',
     name: 'Дорожная техника',
-    image: '/photos/roller-626mh.jpg',
+    image: '/photos/catalog/vibratory-roller.webp',
     description: 'Автогрейдеры, катки и бульдозеры для строительства и ремонта дорог.',
   },
   {
@@ -102,11 +104,6 @@ function m(category: string, model: string, summary: string, specs: [string, str
     summary,
     specs: specs.map(([label, value]) => ({ label, value })),
   }
-}
-
-const modelPhotos: Record<string, string> = {
-  xg815: '/photos/excavator-815fl.jpg',
-  'xg822-xg825': '/photos/excavator-822fl.jpg',
 }
 
 export const machines: Machine[] = [
@@ -192,5 +189,5 @@ export function getMachine(slug: string) {
 }
 
 for (const machine of machines) {
-  if (modelPhotos[machine.slug]) machine.image = modelPhotos[machine.slug]
+  machine.image = catalogImages[machine.slug]?.src
 }

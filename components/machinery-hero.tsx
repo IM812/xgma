@@ -18,9 +18,9 @@ export function MachineryHero() {
           </div>
           <div className="showroom-display">
             <div className="showroom-display-top"><span>Фронтальные погрузчики</span><span>XGMA / N-SERIES</span></div>
-            <span className="showroom-model font-heading" aria-hidden="true">XGMA</span>
-            <Image src="/photos/loader-957-cutout.webp" alt="Фронтальный погрузчик XGMA на выставке, фон фотографии удалён" width={1394} height={772} priority sizes="(min-width: 1024px) 65vw, 100vw" className="showroom-photo" />
-            <div className="showroom-display-bottom"><span className="flex flex-col gap-1"><strong className="font-heading text-2xl font-semibold sm:text-3xl">СИЛА В КАЖДОМ ДВИЖЕНИИ</strong><span className="text-sm text-primary-foreground/70">Знакомьтесь с линейкой погрузчиков</span></span><Link href="/catalog/category/n-series" aria-label="Перейти к погрузчикам N-серии" className="showroom-next"><ArrowUpRight className="size-6" /></Link></div>
+            
+            <Image src="/photos/catalog/xg956n.webp" alt="Фронтальный погрузчик XGMA XG956N" width={1000} height={720} priority sizes="(min-width: 1024px) 65vw, 100vw" className="showroom-photo" />
+            <div className="showroom-display-bottom"><span className="flex flex-col gap-1"><strong className="font-heading text-2xl font-semibold sm:text-3xl">XG956N</strong><span className="text-sm text-muted-foreground">Фронтальный погрузчик N-серии</span></span><Link href="/catalog/category/n-series" aria-label="Перейти к погрузчикам N-серии" className="showroom-next"><ArrowUpRight className="size-6" /></Link></div>
           </div>
         </div>
         <div className="showroom-foot"><span>От одной машины до вашего парка</span><a href="#equipment" className="flex items-center gap-2 font-medium">Выберите свою технику<ArrowDownRight className="size-4" /></a></div>
