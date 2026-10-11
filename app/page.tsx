@@ -3,6 +3,7 @@ import {
   ArticlesPreview,
   CatalogPreview,
   ContactCta,
+  FeaturedModel,
   Hero,
   ModelTicker,
   Services,
@@ -16,6 +17,7 @@ export default function HomePage() {
       <Hero />
       <ModelTicker />
       <CatalogPreview />
+      <FeaturedModel />
       <Services />
       <About />
       <ArticlesPreview />

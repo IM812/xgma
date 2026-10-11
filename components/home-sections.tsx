@@ -26,7 +26,8 @@ export function Hero() {
         sizes="100vw"
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/70 to-background/10" />
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-14 pt-32 md:px-6 md:pb-20">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/80 via-background/20 to-transparent" />
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-10 pt-32 md:px-6 md:pb-12">
         <p className="flex items-center gap-3 font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">
           <span className="hazard h-3 w-10" aria-hidden="true" />
           Дилер техники XGMA
@@ -52,6 +53,71 @@ export function Hero() {
             >
               {site.phone}
             </a>
+          </div>
+        </div>
+        <dl className="grid grid-cols-2 border-t border-foreground/15 pt-6 md:grid-cols-4">
+          {[
+            { k: 'Категорий техники', v: String(categories.length) },
+            { k: 'Моделей в линейке', v: String(machines.length) },
+            { k: 'Ковш флагмана XG968N', v: '4,0 м³' },
+            { k: 'Самый крупный экскаватор', v: 'XG8135EL' },
+          ].map((s) => (
+            <div key={s.k} className="flex flex-col gap-1 border-l border-foreground/15 py-2 pl-4 first:border-l-0 first:pl-0">
+              <dt className="order-2 text-xs uppercase tracking-widest text-muted-foreground">{s.k}</dt>
+              <dd className="order-1 font-heading text-2xl font-bold uppercase md:text-3xl">{s.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  )
+}
+
+export function FeaturedModel() {
+  const model = machines.find((m) => m.model === 'XG955N')
+  if (!model) return null
+  return (
+    <section className="relative overflow-hidden border-b border-border">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:px-6 md:py-28 lg:grid-cols-[1.2fr_1fr]">
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src="/images/loader-n.png"
+            alt="Фронтальный погрузчик XGMA XG955N загружает самосвал"
+            fill
+            className="object-cover"
+            sizes="(min-width: 1024px) 55vw, 100vw"
+          />
+          <span className="absolute left-0 top-0 bg-primary px-4 py-2 font-heading text-sm font-bold uppercase tracking-widest text-primary-foreground">
+            Хит продаж
+          </span>
+        </div>
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-3">
+            <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">Модель в фокусе</p>
+            <h2 className="font-heading text-7xl font-bold uppercase leading-none tracking-tight md:text-8xl">{model.model}</h2>
+            <p className="max-w-md text-pretty leading-relaxed text-muted-foreground">{model.summary}</p>
+          </div>
+          <dl className="flex flex-col">
+            {model.specs.map((s) => (
+              <div key={s.label} className="flex items-baseline justify-between gap-4 border-b border-border py-4">
+                <dt className="text-sm uppercase tracking-widest text-muted-foreground">{s.label}</dt>
+                <dd className="font-heading text-3xl font-bold">{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={`/catalog/${model.slug}`}
+              className="flex items-center gap-2 bg-primary px-6 py-4 font-heading font-bold uppercase tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Подробнее о модели <ArrowRight className="size-5" aria-hidden="true" />
+            </Link>
+            <Link
+              href="/contacts"
+              className="border border-border px-6 py-4 font-heading font-bold uppercase tracking-wide transition-colors hover:border-primary hover:text-primary"
+            >
+              Запросить цену
+            </Link>
           </div>
         </div>
       </div>
@@ -134,12 +200,15 @@ export function CatalogPreview() {
         })}
         <Link
           href="/contacts"
-          className="hazard flex flex-col justify-end p-1 sm:col-span-2 lg:col-span-1"
+          className="group flex flex-col justify-between bg-primary p-6 text-primary-foreground sm:col-span-2 lg:col-span-1"
         >
-          <span className="flex flex-col gap-2 bg-background p-5">
-            <span className="font-heading text-xl font-bold uppercase">Нужен подбор?</span>
-            <span className="text-sm leading-relaxed text-muted-foreground">
-              Поставляем всю линейку XGMA под заказ и подберём машину под задачу.
+          <span className="hazard -mx-6 -mt-6 block h-3 opacity-90" aria-hidden="true" />
+          <span className="flex flex-col gap-3">
+            <span className="font-heading text-3xl font-bold uppercase leading-none">Нужен подбор?</span>
+            <span className="text-sm leading-relaxed">Поставляем всю линейку XGMA под заказ и подберём машину под задачу.</span>
+            <span className="mt-2 flex items-center gap-2 font-heading font-bold uppercase tracking-wide">
+              Оставить заявку
+              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </span>
           </span>
         </Link>
