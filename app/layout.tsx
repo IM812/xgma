@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Roboto_Condensed } from 'next/font/google'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { MobileActionBar } from '@/components/mobile-action-bar'
 import { site } from '@/lib/site'
 import './globals.css'
 
@@ -27,6 +28,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: '#ffffff',
   colorScheme: 'light',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
@@ -40,6 +44,7 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <MobileActionBar />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

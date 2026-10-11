@@ -47,7 +47,7 @@ export function Services() {
                 <summary><h3 className="font-heading text-2xl font-semibold tracking-tight md:text-3xl">{service.title}</h3><Plus className="size-5 shrink-0" aria-hidden="true" /></summary>
                 <div className="flex flex-col items-start gap-5 pb-8">
                   <p className="max-w-lg text-base leading-relaxed text-muted-foreground">{service.text}</p>
-                  <Link href="/contacts" className="flex items-center gap-3 text-sm font-semibold text-primary">{service.link}<ArrowUpRight className="size-4" aria-hidden="true" /></Link>
+                  <Link href="/contacts" className="flex min-h-11 items-center gap-3 text-sm font-semibold text-primary">{service.link}<ArrowUpRight className="size-4" aria-hidden="true" /></Link>
                 </div>
               </details>
             ))}
@@ -65,13 +65,13 @@ export function LeasingBand() {
         <div className="relative isolate overflow-hidden rounded-lg bg-foreground text-background">
           <Image src="/photos/loaders-lineup.jpg" alt="" fill sizes="100vw" className="-z-20 object-cover object-[60%_75%]" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-foreground via-foreground/85 to-foreground/20 max-md:to-foreground/60" aria-hidden="true" />
-          <div className="flex flex-col items-start gap-8 px-6 py-12 sm:px-12 md:py-16 lg:px-16 lg:py-20">
+          <div className="flex flex-col items-start gap-8 px-5 py-10 sm:px-12 md:py-16 lg:px-16 lg:py-20">
             <p className="eyebrow text-accent"><span className="size-[7px] shrink-0 bg-accent" aria-hidden="true" />Финансовые решения</p>
             <h2 className="display-heading max-w-2xl">ТЕХНИКА — В РАБОТУ. <span className="text-accent">КАПИТАЛ — В ДЕЛО.</span></h2>
             <p className="max-w-md text-base leading-relaxed text-background/80">Не откладывайте большие планы. Подберём лизинг с учётом задач бизнеса и комфортной финансовой нагрузки.</p>
-            <div className="flex flex-wrap items-center gap-4">
-              <Link href="/leasing" className="flex items-center gap-8 rounded-lg bg-accent px-6 py-4 text-sm font-semibold text-accent-foreground transition-colors hover:bg-background">Рассчитать лизинг<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
-              <Link href="/contacts#request" className="rounded-lg border border-background/40 px-6 py-4 text-sm font-semibold transition-colors hover:bg-background hover:text-foreground">Связаться с нами</Link>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Link href="/leasing" className="flex items-center justify-between gap-8 rounded-lg bg-accent px-6 py-4 text-sm font-semibold text-accent-foreground transition-colors hover:bg-background">Рассчитать лизинг<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
+              <Link href="/contacts#request" className="rounded-lg border border-background/40 px-6 py-4 text-center text-sm font-semibold transition-colors hover:bg-background hover:text-foreground">Связаться с нами</Link>
             </div>
           </div>
         </div>
@@ -110,9 +110,9 @@ export function ArticlesPreview() {
     <section className="section-space">
       <div className="site-container">
         <SectionHead eyebrow="Практика и экспертиза" title="ПО СУЩЕСТВУ." action={{ href: '/articles', label: 'Журнал XGMA' }} />
-        <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+        <div className="mobile-snap md:grid md:grid-cols-3 md:gap-6">
           {featured.map((article) => (
-            <Link key={article.slug} href={`/articles/${article.slug}`} className="group flex flex-col gap-6 rounded-lg border border-border bg-background p-6 transition-colors hover:border-primary sm:p-8">
+            <Link key={article.slug} href={`/articles/${article.slug}`} className="group flex flex-col gap-5 rounded-lg border border-border bg-background p-5 transition-colors hover:border-primary sm:gap-6 sm:p-8">
               <span className="w-fit rounded-full bg-muted px-3 py-1 text-xs font-medium">{article.rubric}</span>
               <div className="flex flex-col gap-3">
                 <h3 className="text-pretty font-heading text-2xl font-semibold leading-tight">{article.title}</h3>
