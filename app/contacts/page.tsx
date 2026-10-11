@@ -23,7 +23,7 @@ export default function ContactsPage() {
         <ul className="flex flex-col gap-px bg-border">
           {items.map(({ icon: Icon, label, value, href }) => (
             <li key={label} className="flex items-center gap-4 bg-card p-5">
-              <Icon className="size-5 shrink-0 text-accent" aria-hidden="true" />
+              <Icon className="size-5 shrink-0 text-primary" aria-hidden="true" />
               <div>
                 <p className="text-xs text-muted-foreground">{label}</p>
                 {href ? (

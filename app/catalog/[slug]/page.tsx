@@ -33,21 +33,30 @@ export default async function MachinePage({ params }: { params: Promise<{ slug: 
         </Link>
       </nav>
       <div className="grid gap-10 md:grid-cols-2">
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-          <Image
-            src={machine.image || category?.image || '/placeholder.svg'}
-            alt={`${category?.name} XGMA ${machine.model}`}
-            fill
-            priority
-            className="object-cover"
-            sizes="(min-width: 768px) 50vw, 100vw"
-          />
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted">
+          {machine.image ? (
+            <Image
+              src={machine.image || '/placeholder.svg'}
+              alt={`${category?.name} XGMA ${machine.model}`}
+              fill
+              priority
+              className="object-cover"
+              sizes="(min-width: 768px) 50vw, 100vw"
+            />
+          ) : (
+            <div className="flex h-full flex-col justify-between p-8">
+              <span className="w-fit rounded-full bg-card px-3 py-1 text-xs font-semibold">Фото по запросу</span>
+              <span className="break-words font-heading text-5xl font-bold leading-none tracking-tight text-primary md:text-6xl">
+                {machine.model}
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-5">
-          <p className="font-heading text-sm font-bold uppercase tracking-widest text-accent">{category?.name}</p>
-          <h1 className="font-heading text-5xl font-bold md:text-6xl">XGMA {machine.model}</h1>
+          <p className="text-sm font-semibold text-primary">{category?.name}</p>
+          <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl">XGMA {machine.model}</h1>
           <p className="text-lg leading-relaxed text-muted-foreground">{machine.summary}</p>
-          <dl className="grid grid-cols-2 border-l-4 border-primary bg-card">
+          <dl className="grid grid-cols-2 overflow-hidden rounded-xl border border-border bg-card">
             {machine.specs.map((s) => (
               <div key={s.label} className="border-b border-border p-4">
                 <dt className="text-xs text-muted-foreground">{s.label}</dt>
@@ -66,7 +75,7 @@ export default async function MachinePage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
       <section className="mt-16 grid gap-8 border-t border-border pt-12 md:grid-cols-2">
-        <h2 className="font-heading text-3xl font-bold uppercase">Запросить цену на {machine.model}</h2>
+        <h2 className="font-heading text-3xl font-bold tracking-tight">Запросить цену на {machine.model}</h2>
         <RequestForm defaultSubject={`XGMA ${machine.model}`} />
       </section>
     </main>

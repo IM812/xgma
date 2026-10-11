@@ -21,7 +21,7 @@ export default function ArticlesPage() {
         {topics.map((t) => (
           <li key={t.slug} className="bg-card">
             <Link href={`/articles/${t.slug}`} className="group flex h-full flex-col gap-2 p-6">
-              <span className="font-heading text-xs font-bold uppercase tracking-widest text-accent">{t.rubric}</span>
+              <span className="font-heading text-xs font-bold uppercase tracking-widest text-primary">{t.rubric}</span>
               <h2 className="text-pretty font-heading text-xl font-bold leading-snug group-hover:underline">{t.title}</h2>
               <p className="text-sm leading-relaxed text-muted-foreground">{t.brief}</p>
             </Link>

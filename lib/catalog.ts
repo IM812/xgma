@@ -1,7 +1,7 @@
 export type Category = {
   slug: string
   name: string
-  image: string
+  image?: string
   description: string
 }
 
@@ -13,7 +13,7 @@ export type Machine = {
   category: string
   summary: string
   specs: Spec[]
-  /** Optional dealer-supplied photo, e.g. /images/models/xg955n.jpg */
+  /** Real photo of this exact model (see lib/photos.ts for credits) */
   image?: string
 }
 
@@ -21,79 +21,70 @@ export const categories: Category[] = [
   {
     slug: 'n-series',
     name: 'Погрузчики N-серии',
-    image: '/images/loader-n.png',
+    image: '/photos/loader-957.jpg',
     description: 'Новое поколение фронтальных погрузчиков XGMA: обновлённая кабина, экономичные двигатели, ковши от 1,8 до 4 м³.',
   },
   {
     slug: 'wheel-loaders',
     name: 'Фронтальные погрузчики H-серии',
-    image: '/images/wheel-loader.png',
+    image: '/photos/loaders-lineup.jpg',
     description: 'Проверенная H-серия для карьеров, баз сыпучих материалов, стройки и коммунальных работ.',
   },
   {
     slug: 'compact-loaders',
     name: 'Компактные погрузчики',
-    image: '/images/compact-loader.png',
     description: 'Небольшие фронтальные погрузчики для стеснённых площадок, ферм и коммунальных служб.',
   },
   {
     slug: 'backhoe-loaders',
     name: 'Экскаваторы-погрузчики',
-    image: '/images/backhoe-loader.png',
     description: 'Две машины в одной: погрузочный ковш спереди и экскаваторная стрела сзади.',
   },
   {
     slug: 'fork-loaders',
     name: 'Вилочные погрузчики большой грузоподъёмности',
-    image: '/images/fork-loader.png',
     description: 'Тяжёлые погрузчики на базе фронтальной платформы для камня, металлопроката и контейнеров: от 18 до 50 т.',
   },
   {
     slug: 'excavators',
     name: 'Гусеничные экскаваторы',
-    image: '/images/excavator.png',
+    image: '/photos/excavator-822fl.jpg',
     description: 'Линейка от мини-экскаваторов 6 т до карьерных машин массой 125 т.',
   },
   {
     slug: 'wheel-excavators',
     name: 'Колёсные экскаваторы',
-    image: '/images/wheel-excavator.png',
     description: 'Мобильные экскаваторы для городских работ и объектов с частыми переездами.',
   },
   {
     slug: 'skid-steer',
     name: 'Мини-погрузчики с бортовым поворотом',
-    image: '/images/skid-steer.png',
     description: 'Манёвренные мини-погрузчики с разворотом на месте и широким выбором навесного оборудования.',
   },
   {
     slug: 'road',
     name: 'Дорожная техника',
-    image: '/images/road-roller.png',
+    image: '/photos/roller-626mh.jpg',
     description: 'Автогрейдеры, катки и бульдозеры для строительства и ремонта дорог.',
   },
   {
     slug: 'industrial',
     name: 'Складская техника',
-    image: '/images/forklift.png',
     description: 'Дизельные и электрические вилочные погрузчики, штабелёры и боковые погрузчики.',
   },
   {
     slug: 'mining-trucks',
     name: 'Карьерные самосвалы',
-    image: '/images/mining-truck.png',
     description: 'Самосвалы для горнодобывающих предприятий и крупных карьеров.',
   },
   {
     slug: 'fire-trucks',
     name: 'Пожарные автоподъёмники',
-    image: '/images/fire-truck.png',
     description: 'Пожарная техника с высотной стрелой для тушения и спасения на высоте.',
   },
   {
     slug: 'tbm',
     name: 'Тоннелепроходческие комплексы',
-    image: '/images/tbm.png',
     description: 'Щиты с грунтопригрузом (EPB) для строительства тоннелей метро и коммуникаций.',
   },
 ]
@@ -111,6 +102,11 @@ function m(category: string, model: string, summary: string, specs: [string, str
     summary,
     specs: specs.map(([label, value]) => ({ label, value })),
   }
+}
+
+const modelPhotos: Record<string, string> = {
+  xg815: '/photos/excavator-815fl.jpg',
+  'xg822-xg825': '/photos/excavator-822fl.jpg',
 }
 
 export const machines: Machine[] = [
@@ -193,4 +189,8 @@ export function getCategory(slug: string) {
 
 export function getMachine(slug: string) {
   return machines.find((m) => m.slug === slug)
+}
+
+for (const machine of machines) {
+  if (modelPhotos[machine.slug]) machine.image = modelPhotos[machine.slug]
 }

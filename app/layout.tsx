@@ -9,7 +9,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' })
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin', 'cyrillic'],
-  weight: ['500', '700'],
+  weight: ['500', '600', '700', '800'],
   variable: '--font-roboto-condensed',
 })
 
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#16191d',
-  colorScheme: 'dark',
+  themeColor: '#ffffff',
+  colorScheme: 'light',
 }
 
 export default function RootLayout({

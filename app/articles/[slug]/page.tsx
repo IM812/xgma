@@ -38,7 +38,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </Link>
       <article className="mt-6 flex flex-col gap-8">
         <header className="flex flex-col gap-4 border-b border-border pb-8">
-          <span className="font-heading text-xs font-bold uppercase tracking-widest text-accent">{topic.rubric}</span>
+          <span className="font-heading text-xs font-bold uppercase tracking-widest text-primary">{topic.rubric}</span>
           <h1 className="text-balance font-heading text-4xl font-bold leading-tight md:text-5xl">{topic.title}</h1>
           <p className="text-xs text-muted-foreground">
             <time dateTime={article.generatedAt}>{`Обновлено ${updated}`}</time>
@@ -90,7 +90,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <nav aria-label="Другие статьи" className="mt-12 flex flex-col gap-3 border-t border-border pt-8">
         <p className="font-heading text-sm font-bold uppercase tracking-widest text-muted-foreground">Читайте также</p>
         {related.map((t) => (
-          <Link key={t.slug} href={`/articles/${t.slug}`} className="font-heading text-lg font-bold hover:text-accent">
+          <Link key={t.slug} href={`/articles/${t.slug}`} className="font-heading text-lg font-bold hover:text-primary">
             {t.title}
           </Link>
         ))}

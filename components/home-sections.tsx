@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Wrench, Truck, FileText, Package } from 'lucide-react'
-import { categories, machines } from '@/lib/catalog'
+import { ArrowRight, ArrowUpRight, Check, FileText, Package, Truck, Wrench } from 'lucide-react'
+import { categories, getMachine, machines } from '@/lib/catalog'
 import { weeklyTopics } from '@/lib/articles'
 import { site } from '@/lib/site'
 import { RequestForm } from '@/components/request-form'
@@ -14,246 +14,294 @@ function plural(n: number) {
   return 'моделей'
 }
 
-export function Hero() {
+function SectionHead({ eyebrow, title, link }: { eyebrow: string; title: string; link?: { href: string; label: string } }) {
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-4rem)] flex-col justify-end overflow-hidden">
-      <Image
-        src="/images/hero.png"
-        alt="Фронтальный погрузчик XGMA разгружает щебень в карьере"
-        fill
-        priority
-        className="-z-10 object-cover"
-        sizes="100vw"
-      />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/70 to-background/10" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/80 via-background/20 to-transparent" />
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-10 pt-32 md:px-6 md:pb-12">
-        <p className="flex items-center gap-3 font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">
-          <span className="hazard h-3 w-10" aria-hidden="true" />
-          Дилер техники XGMA
-        </p>
-        <h1 className="max-w-5xl text-balance font-heading text-5xl font-bold uppercase leading-[0.92] tracking-tight sm:text-7xl lg:text-8xl">
-          Техника, которая <span className="text-primary">не встаёт</span> на объекте
-        </h1>
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-            Фронтальные погрузчики, экскаваторы, дорожная и складская техника XGMA. Подбор, поставка, лизинг и сервис по всей
-            России.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/catalog"
-              className="flex items-center gap-2 bg-primary px-6 py-4 font-heading text-base font-bold uppercase tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Каталог техники <ArrowRight className="size-5" aria-hidden="true" />
-            </Link>
-            <a
-              href={site.phoneHref}
-              className="border border-foreground/30 px-6 py-4 font-heading text-base font-bold uppercase tracking-wide backdrop-blur transition-colors hover:border-primary hover:text-primary"
-            >
-              {site.phone}
-            </a>
-          </div>
-        </div>
-        <dl className="grid grid-cols-2 border-t border-foreground/15 pt-6 md:grid-cols-4">
-          {[
-            { k: 'Категорий техники', v: String(categories.length) },
-            { k: 'Моделей в линейке', v: String(machines.length) },
-            { k: 'Ковш флагмана XG968N', v: '4,0 м³' },
-            { k: 'Самый крупный экскаватор', v: 'XG8135EL' },
-          ].map((s) => (
-            <div key={s.k} className="flex flex-col gap-1 border-l border-foreground/15 py-2 pl-4 first:border-l-0 first:pl-0">
-              <dt className="order-2 text-xs uppercase tracking-widest text-muted-foreground">{s.k}</dt>
-              <dd className="order-1 font-heading text-2xl font-bold uppercase md:text-3xl">{s.v}</dd>
-            </div>
-          ))}
-        </dl>
+    <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
+      <div className="flex max-w-2xl flex-col gap-3">
+        <p className="text-sm font-semibold text-primary">{eyebrow}</p>
+        <h2 className="text-balance font-heading text-3xl font-bold leading-tight tracking-tight md:text-5xl">{title}</h2>
       </div>
-    </section>
-  )
-}
-
-export function FeaturedModel() {
-  const model = machines.find((m) => m.model === 'XG955N')
-  if (!model) return null
-  return (
-    <section className="relative overflow-hidden border-b border-border">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:px-6 md:py-28 lg:grid-cols-[1.2fr_1fr]">
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
-            src="/images/loader-n.png"
-            alt="Фронтальный погрузчик XGMA XG955N загружает самосвал"
-            fill
-            className="object-cover"
-            sizes="(min-width: 1024px) 55vw, 100vw"
-          />
-          <span className="absolute left-0 top-0 bg-primary px-4 py-2 font-heading text-sm font-bold uppercase tracking-widest text-primary-foreground">
-            Хит продаж
-          </span>
-        </div>
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-3">
-            <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">Модель в фокусе</p>
-            <h2 className="font-heading text-7xl font-bold uppercase leading-none tracking-tight md:text-8xl">{model.model}</h2>
-            <p className="max-w-md text-pretty leading-relaxed text-muted-foreground">{model.summary}</p>
-          </div>
-          <dl className="flex flex-col">
-            {model.specs.map((s) => (
-              <div key={s.label} className="flex items-baseline justify-between gap-4 border-b border-border py-4">
-                <dt className="text-sm uppercase tracking-widest text-muted-foreground">{s.label}</dt>
-                <dd className="font-heading text-3xl font-bold">{s.value}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/catalog/${model.slug}`}
-              className="flex items-center gap-2 bg-primary px-6 py-4 font-heading font-bold uppercase tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Подробнее о модели <ArrowRight className="size-5" aria-hidden="true" />
-            </Link>
-            <Link
-              href="/contacts"
-              className="border border-border px-6 py-4 font-heading font-bold uppercase tracking-wide transition-colors hover:border-primary hover:text-primary"
-            >
-              Запросить цену
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-export function ModelTicker() {
-  const models = machines.filter((m) => /^XG/.test(m.model)).map((m) => m.model)
-  const row = [...models, ...models]
-  return (
-    <div className="overflow-hidden border-y border-primary bg-primary py-3 text-primary-foreground" aria-hidden="true">
-      <div className="animate-ticker flex w-max gap-10">
-        {row.map((m, i) => (
-          <span key={`${m}-${i}`} className="flex items-center gap-10 font-heading text-2xl font-bold uppercase tracking-tight">
-            {m}
-            <span className="size-2 rotate-45 bg-primary-foreground" />
-          </span>
-        ))}
-      </div>
+      {link && (
+        <Link
+          href={link.href}
+          className="group flex w-fit items-center gap-2 text-sm font-semibold text-primary"
+        >
+          {link.label}
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+        </Link>
+      )}
     </div>
   )
 }
 
-export function CatalogPreview() {
+const trust = ['Техника в наличии и под заказ', 'Лизинг и рассрочка', 'Гарантия производителя', 'Сервис и запчасти']
+
+export function Hero() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
-      <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <div className="flex flex-col gap-3">
-          <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">Модельный ряд</p>
-          <h2 className="max-w-2xl text-balance font-heading text-4xl font-bold uppercase leading-none md:text-6xl">
-            {`${categories.length} направлений, ${machines.length} позиций`}
-          </h2>
-        </div>
-        <Link
-          href="/catalog"
-          className="flex w-fit items-center gap-2 border-b-2 border-primary pb-1 font-heading font-bold uppercase tracking-wide"
-        >
-          Весь каталог <ArrowRight className="size-4" aria-hidden="true" />
-        </Link>
-      </div>
-      <div className="grid auto-rows-[18rem] gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {categories.map((c, i) => {
-          const count = machines.filter((m) => m.category === c.slug).length
-          const big = i < 2
-          return (
+    <section className="relative overflow-hidden border-b border-border bg-card">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 md:px-6 md:py-20 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:py-24">
+        <div className="flex animate-rise flex-col gap-7">
+          <p className="flex w-fit items-center gap-2 rounded-full border border-border bg-muted px-3 py-1.5 text-xs font-semibold text-foreground/80">
+            <span className="size-2 rounded-full bg-accent" aria-hidden="true" />
+            Дилер дорожно-строительной техники XGMA
+          </p>
+          <h1 className="text-balance font-heading text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            Погрузчики и экскаваторы <span className="text-primary">XGMA</span> с поставкой по всей России
+          </h1>
+          <p className="max-w-lg text-pretty text-lg leading-relaxed text-muted-foreground">
+            {`${machines.length} моделей в ${categories.length} категориях: от компактных погрузчиков до 125-тонных карьерных экскаваторов. Подберём машину под задачу и посчитаем цену с доставкой.`}
+          </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              key={c.slug}
-              href={`/catalog#${c.slug}`}
-              className={`group relative isolate flex flex-col justify-end overflow-hidden bg-card p-5 ${
-                big ? 'sm:col-span-2 sm:row-span-2' : ''
-              }`}
+              href="/catalog"
+              className="flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
-              <Image
-                src={c.image || '/placeholder.svg'}
-                alt=""
-                fill
-                className="-z-10 object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes={big ? '(min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw'}
-              />
-              <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-background/50 to-transparent" />
-              <div className="flex items-end justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <span className="font-heading text-xs font-bold uppercase tracking-widest text-primary">
-                    {`${count} ${plural(count)}`}
-                  </span>
-                  <h3
-                    className={`text-balance font-heading font-bold uppercase leading-tight ${big ? 'text-3xl md:text-4xl' : 'text-xl'}`}
-                  >
-                    {c.name}
-                  </h3>
-                  {big && <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{c.description}</p>}
-                </div>
-                <span className="flex size-10 shrink-0 items-center justify-center bg-primary text-primary-foreground transition-transform group-hover:-translate-y-1">
-                  <ArrowUpRight className="size-5" aria-hidden="true" />
-                </span>
-              </div>
+              Смотреть каталог <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
-          )
-        })}
-        <Link
-          href="/contacts"
-          className="group flex flex-col justify-between bg-primary p-6 text-primary-foreground sm:col-span-2 lg:col-span-1"
-        >
-          <span className="hazard -mx-6 -mt-6 block h-3 opacity-90" aria-hidden="true" />
-          <span className="flex flex-col gap-3">
-            <span className="font-heading text-3xl font-bold uppercase leading-none">Нужен подбор?</span>
-            <span className="text-sm leading-relaxed">Поставляем всю линейку XGMA под заказ и подберём машину под задачу.</span>
-            <span className="mt-2 flex items-center gap-2 font-heading font-bold uppercase tracking-wide">
-              Оставить заявку
-              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            <Link
+              href="/contacts"
+              className="flex items-center justify-center rounded-md border border-input bg-card px-6 py-3.5 font-semibold transition-colors hover:border-primary hover:text-primary"
+            >
+              Рассчитать лизинг
+            </Link>
+          </div>
+          <ul className="grid grid-cols-1 gap-x-6 gap-y-3 border-t border-border pt-6 sm:grid-cols-2">
+            {trust.map((t) => (
+              <li key={t} className="flex items-center gap-2.5 text-sm font-medium">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Check className="size-3" aria-hidden="true" />
+                </span>
+                {t}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <figure className="relative animate-rise [animation-delay:120ms]">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted">
+            <Image
+              src="/photos/loader-957.jpg"
+              alt="Фронтальный погрузчик XGMA XG957N"
+              fill
+              priority
+              className="object-cover object-[50%_65%]"
+              sizes="(min-width: 1024px) 55vw, 100vw"
+            />
+          </div>
+          <div className="absolute -bottom-6 left-4 flex items-center gap-4 rounded-lg border border-border bg-card p-4 shadow-xl shadow-foreground/5 sm:left-6">
+            <span className="flex size-12 items-center justify-center rounded-md bg-accent font-heading text-lg font-bold text-accent-foreground">
+              N
             </span>
-          </span>
-        </Link>
+            <span className="flex flex-col">
+              <span className="font-heading text-lg font-bold leading-tight">Погрузчики N-серии</span>
+              <span className="text-sm text-muted-foreground">Ковши от 1,8 до 4,0 м³</span>
+            </span>
+          </div>
+          <figcaption className="sr-only">Погрузчик XGMA серии N на выставке строительной техники</figcaption>
+        </figure>
       </div>
     </section>
   )
 }
 
 const services = [
-  { icon: Truck, title: 'Поставка', text: 'Техника в наличии и под заказ, доставка до объекта по России.' },
-  { icon: FileText, title: 'Лизинг', text: 'Оформляем лизинг и рассрочку через банки-партнёры.' },
-  { icon: Wrench, title: 'Сервис и ТО', text: 'Плановое обслуживание, диагностика, выезд механика.' },
-  { icon: Package, title: 'Запчасти', text: 'Расходники и оригинальные запчасти XGMA со склада и под заказ.' },
+  { icon: Truck, title: 'Поставка', text: 'Со склада и под заказ, доставка до объекта трейлером или ж/д.' },
+  { icon: FileText, title: 'Лизинг', text: 'Работаем с банками и лизинговыми компаниями, подберём условия.' },
+  { icon: Wrench, title: 'Сервис и ТО', text: 'Пусконаладка, плановое ТО и выезд механика на объект.' },
+  { icon: Package, title: 'Запчасти', text: 'Расходники и оригинальные запчасти XGMA со склада.' },
 ]
 
-export function Services() {
+export function ServiceStrip() {
   return (
-    <section id="service" className="scroll-mt-24 border-y border-border bg-card">
-      <div className="mx-auto grid max-w-7xl lg:grid-cols-2">
-        <div className="relative min-h-80 lg:min-h-[36rem]">
+    <section aria-label="Услуги" className="border-b border-border bg-muted">
+      <ul className="mx-auto grid max-w-7xl gap-px px-4 pb-0 pt-16 sm:grid-cols-2 md:px-6 lg:grid-cols-4 lg:pt-14">
+        {services.map(({ icon: Icon, title, text }) => (
+          <li key={title} className="flex gap-4 py-6 lg:pr-8">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-md bg-card text-primary shadow-sm">
+              <Icon className="size-5" aria-hidden="true" />
+            </span>
+            <span className="flex flex-col gap-1">
+              <span className="font-heading text-lg font-bold">{title}</span>
+              <span className="text-sm leading-relaxed text-muted-foreground">{text}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+export function CatalogPreview() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
+      <SectionHead
+        eyebrow="Модельный ряд"
+        title="Техника XGMA для стройки, карьера и склада"
+        link={{ href: '/catalog', label: 'Весь каталог' }}
+      />
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {categories
+          .filter((c) => c.image)
+          .map((c) => {
+            const count = machines.filter((m) => m.category === c.slug).length
+            return (
+              <Link
+                key={c.slug}
+                href={`/catalog#${c.slug}`}
+                className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-foreground/5"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                  <Image
+                    src={c.image || '/placeholder.svg'}
+                    alt={c.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                  <span className="absolute left-4 top-4 rounded-full bg-card/95 px-3 py-1 text-xs font-semibold shadow-sm">
+                    {`${count} ${plural(count)}`}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-balance font-heading text-lg font-bold leading-tight">{c.name}</h3>
+                    <ArrowUpRight
+                      className="size-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{c.description}</p>
+                </div>
+              </Link>
+            )
+          })}
+      </div>
+      <ul className="mt-5 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        {categories
+          .filter((c) => !c.image)
+          .map((c) => {
+            const items = machines.filter((m) => m.category === c.slug)
+            return (
+              <li key={c.slug} className="bg-card">
+                <Link
+                  href={`/catalog#${c.slug}`}
+                  className="group flex h-full items-center justify-between gap-4 p-5 transition-colors hover:bg-muted"
+                >
+                  <span className="flex min-w-0 flex-col gap-1">
+                    <span className="font-heading text-lg font-bold leading-tight group-hover:text-primary">{c.name}</span>
+                    <span className="truncate text-sm text-muted-foreground">
+                      {`${items.length} ${plural(items.length)} · ${items
+                        .slice(0, 2)
+                        .map((m) => m.model)
+                        .join(', ')}`}
+                    </span>
+                  </span>
+                  <ArrowUpRight
+                    className="size-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </li>
+            )
+          })}
+      </ul>
+    </section>
+  )
+}
+
+export function FeaturedModel() {
+  const model = getMachine('xg822-xg825')
+  if (!model) return null
+  return (
+    <section className="bg-ink text-ink-foreground">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 md:px-6 md:py-28 lg:grid-cols-2">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-xl sm:aspect-[4/3] lg:aspect-square">
           <Image
-            src="/images/service.png"
-            alt="Механик обслуживает гидравлику погрузчика в сервисном центре"
+            src={model.image || '/placeholder.svg'}
+            alt="Гусеничный экскаватор XGMA XG822FL"
             fill
             className="object-cover"
             sizes="(min-width: 1024px) 50vw, 100vw"
           />
         </div>
-        <div className="flex flex-col justify-center gap-10 px-4 py-16 md:px-12">
-          <div className="flex flex-col gap-3">
-            <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">Сервис</p>
-            <h2 className="text-balance font-heading text-4xl font-bold uppercase leading-none md:text-5xl">
-              Полный цикл — от подбора до ремонта
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4">
+            <p className="w-fit rounded-full bg-accent px-3 py-1 text-xs font-bold text-accent-foreground">Основной класс</p>
+            <h2 className="text-balance font-heading text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+              Экскаваторы XG822 / XG825
             </h2>
+            <p className="max-w-lg text-pretty text-lg leading-relaxed text-ink-foreground/70">{model.summary}</p>
           </div>
-          <ul className="grid gap-px bg-border sm:grid-cols-2">
-            {services.map(({ icon: Icon, title, text }) => (
-              <li key={title} className="flex flex-col gap-3 bg-card p-5">
-                <Icon className="size-6 text-primary" aria-hidden="true" />
-                <h3 className="font-heading text-xl font-bold uppercase">{title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{text}</p>
-              </li>
+          <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-lg bg-ink-foreground/10 sm:grid-cols-3">
+            {model.specs.map((s) => (
+              <div key={s.label} className="flex flex-col gap-1 bg-ink p-5">
+                <dt className="text-xs text-ink-foreground/60">{s.label}</dt>
+                <dd className="font-heading text-2xl font-bold">{s.value}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={`/catalog/${model.slug}`}
+              className="flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3.5 font-semibold text-accent-foreground transition-opacity hover:opacity-90"
+            >
+              Характеристики и цена <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
+            <Link
+              href="/catalog#excavators"
+              className="flex items-center justify-center rounded-md border border-ink-foreground/25 px-6 py-3.5 font-semibold transition-colors hover:border-ink-foreground"
+            >
+              Все экскаваторы
+            </Link>
+          </div>
         </div>
+      </div>
+    </section>
+  )
+}
+
+const steps = [
+  { title: 'Заявка', text: 'Рассказываете о задаче, объёмах и условиях работы.' },
+  { title: 'Подбор', text: 'Предлагаем модель, навесное и комплектацию под климат.' },
+  { title: 'Договор и лизинг', text: 'Фиксируем цену, оформляем покупку или лизинг.' },
+  { title: 'Доставка', text: 'Привозим на объект, проводим пусконаладку и обучение.' },
+  { title: 'Сервис', text: 'Сопровождаем ТО и запчастями весь срок службы.' },
+]
+
+export function Services() {
+  return (
+    <section id="service" className="mx-auto max-w-7xl scroll-mt-32 px-4 py-20 md:px-6 md:py-28">
+      <SectionHead eyebrow="Как мы работаем" title="От заявки до сервиса — одна команда" />
+      <ol className="grid gap-5 md:grid-cols-5">
+        {steps.map((s, i) => (
+          <li key={s.title} className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6">
+            <span className="flex size-9 items-center justify-center rounded-full bg-primary font-heading text-sm font-bold text-primary-foreground">
+              {i + 1}
+            </span>
+            <span className="font-heading text-lg font-bold">{s.title}</span>
+            <span className="text-sm leading-relaxed text-muted-foreground">{s.text}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+export function LeasingBand() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="flex flex-col gap-6 rounded-xl bg-accent px-6 py-10 text-accent-foreground md:flex-row md:items-center md:justify-between md:px-12 md:py-12">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-balance font-heading text-3xl font-bold leading-tight md:text-4xl">Технику можно взять в лизинг</h2>
+          <p className="max-w-xl leading-relaxed text-accent-foreground/80">
+            Сравним предложения банков и лизинговых компаний и пришлём график платежей за один рабочий день.
+          </p>
+        </div>
+        <Link
+          href="/contacts"
+          className="flex shrink-0 items-center justify-center gap-2 rounded-md bg-ink px-6 py-3.5 font-semibold text-ink-foreground transition-opacity hover:opacity-90"
+        >
+          Рассчитать платёж <ArrowRight className="size-4" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   )
@@ -261,23 +309,37 @@ export function Services() {
 
 export function About() {
   return (
-    <section id="about" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 md:px-6 md:py-28">
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr]">
-        <div className="flex flex-col gap-3">
-          <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">О компании</p>
-          <h2 className="text-balance font-heading text-4xl font-bold uppercase leading-none md:text-5xl">
+    <section id="about" className="mx-auto max-w-7xl scroll-mt-32 px-4 py-20 md:px-6 md:py-28">
+      <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted">
+          <Image
+            src="/photos/exhibition.jpg"
+            alt="Экспозиция техники XGMA на международной выставке в Чанше"
+            fill
+            className="object-cover"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+          />
+        </div>
+        <div className="flex flex-col gap-6">
+          <p className="text-sm font-semibold text-primary">О компании</p>
+          <h2 className="text-balance font-heading text-3xl font-bold leading-tight tracking-tight md:text-5xl">
             Работаем с техникой XGMA каждый день
           </h2>
-        </div>
-        <div className="flex flex-col gap-5 text-lg leading-relaxed text-muted-foreground">
-          <p>
-            <strong className="text-foreground">{site.name}</strong> — дилер дорожно-строительной и складской техники XGMA.
-            Xiamen XGMA Machinery — один из крупнейших производителей фронтальных погрузчиков в Китае.
-          </p>
-          <p>
-            Подбираем машины под задачи заказчика с учётом российского климата, помогаем с финансированием и сопровождаем технику
-            сервисом на весь срок службы.
-          </p>
+          <div className="flex flex-col gap-4 text-lg leading-relaxed text-muted-foreground">
+            <p>
+              <strong className="font-semibold text-foreground">{site.name}</strong> — дилер дорожно-строительной и складской
+              техники XGMA. Xiamen XGMA Machinery — один из крупнейших производителей фронтальных погрузчиков в Китае, на рынке с
+              1951 года.
+            </p>
+            <p>
+              Подбираем машины под задачи заказчика с учётом российского климата, помогаем с финансированием и сопровождаем
+              технику сервисом на весь срок службы.
+            </p>
+          </div>
+          <Link href="/contacts" className="group flex w-fit items-center gap-2 font-semibold text-primary">
+            Связаться с нами
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </section>
@@ -287,33 +349,22 @@ export function About() {
 export function ArticlesPreview() {
   const featured = weeklyTopics(3)
   return (
-    <section className="border-t border-border">
+    <section className="border-t border-border bg-muted">
       <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
-        <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="flex flex-col gap-3">
-            <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">Журнал</p>
-            <h2 className="font-heading text-4xl font-bold uppercase leading-none md:text-5xl">Статьи о технике XGMA</h2>
-            <p className="text-sm text-muted-foreground">Обновляются каждую неделю</p>
-          </div>
-          <Link
-            href="/articles"
-            className="flex w-fit items-center gap-2 border-b-2 border-primary pb-1 font-heading font-bold uppercase tracking-wide"
-          >
-            Все статьи <ArrowRight className="size-4" aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="grid gap-px bg-border md:grid-cols-3">
+        <SectionHead eyebrow="Журнал" title="Статьи о технике XGMA" link={{ href: '/articles', label: 'Все статьи' }} />
+        <div className="grid gap-5 md:grid-cols-3">
           {featured.map((t) => (
             <Link
               key={t.slug}
               href={`/articles/${t.slug}`}
-              className="group flex min-h-64 flex-col gap-4 bg-background p-6 transition-colors hover:bg-card"
+              className="group flex min-h-64 flex-col gap-4 rounded-xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-foreground/5"
             >
-              <span className="font-heading text-xs font-bold uppercase tracking-widest text-primary">{t.rubric}</span>
-              <h3 className="text-pretty font-heading text-2xl font-bold leading-tight">{t.title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{t.brief}</p>
-              <span className="mt-auto flex items-center gap-2 font-heading text-sm font-bold uppercase tracking-wide group-hover:text-primary">
-                Читать <ArrowRight className="size-4" aria-hidden="true" />
+              <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{t.rubric}</span>
+              <h3 className="text-pretty font-heading text-xl font-bold leading-snug">{t.title}</h3>
+              <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">{t.brief}</p>
+              <span className="mt-auto flex items-center gap-2 text-sm font-semibold text-primary">
+                Читать
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </span>
             </Link>
           ))}
@@ -325,24 +376,27 @@ export function ArticlesPreview() {
 
 export function ContactCta() {
   return (
-    <section className="border-t border-border bg-card">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 md:px-6 md:py-28 lg:grid-cols-2">
+    <section className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
+      <div className="grid gap-12 lg:grid-cols-2">
         <div className="flex flex-col gap-5">
-          <p className="font-heading text-sm font-bold uppercase tracking-[0.3em] text-primary">Заявка</p>
-          <h2 className="text-balance font-heading text-4xl font-bold uppercase leading-none md:text-6xl">
+          <p className="text-sm font-semibold text-primary">Заявка</p>
+          <h2 className="text-balance font-heading text-3xl font-bold leading-tight tracking-tight md:text-5xl">
             Рассчитаем стоимость с доставкой
           </h2>
-          <p className="max-w-md leading-relaxed text-muted-foreground">
+          <p className="max-w-md text-lg leading-relaxed text-muted-foreground">
             Менеджер уточнит задачи, подберёт модель и комплектацию, посчитает цену с доставкой и лизингом.
           </p>
-          <a href={site.phoneHref} className="font-heading text-4xl font-bold text-primary md:text-5xl">
-            {site.phone}
-          </a>
-          <a href={`mailto:${site.email}`} className="w-fit underline underline-offset-4">
-            {site.email}
-          </a>
+          <div className="mt-2 flex flex-col gap-1 border-l-2 border-accent pl-5">
+            <span className="text-sm text-muted-foreground">Позвоните нам</span>
+            <a href={site.phoneHref} className="font-heading text-3xl font-bold text-primary md:text-4xl">
+              {site.phone}
+            </a>
+            <a href={`mailto:${site.email}`} className="w-fit text-sm underline underline-offset-4">
+              {site.email}
+            </a>
+          </div>
         </div>
-        <div className="border border-border bg-background p-6 md:p-8">
+        <div className="rounded-xl border border-border bg-card p-6 shadow-xl shadow-foreground/5 md:p-8">
           <RequestForm />
         </div>
       </div>

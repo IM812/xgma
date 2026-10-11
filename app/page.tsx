@@ -5,7 +5,8 @@ import {
   ContactCta,
   FeaturedModel,
   Hero,
-  ModelTicker,
+  LeasingBand,
+  ServiceStrip,
   Services,
 } from '@/components/home-sections'
 
@@ -15,10 +16,11 @@ export default function HomePage() {
   return (
     <main>
       <Hero />
-      <ModelTicker />
+      <ServiceStrip />
       <CatalogPreview />
       <FeaturedModel />
       <Services />
+      <LeasingBand />
       <About />
       <ArticlesPreview />
       <ContactCta />
