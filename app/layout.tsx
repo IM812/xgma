@@ -1,36 +1,30 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Inter, Roboto_Condensed } from 'next/font/google'
+import { SiteHeader } from '@/components/site-header'
+import { SiteFooter } from '@/components/site-footer'
+import { site } from '@/lib/site'
 import './globals.css'
 
+const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' })
+const robotoCondensed = Roboto_Condensed({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['500', '700'],
+  variable: '--font-roboto-condensed',
+})
+
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+  title: {
+    default: `${site.name} — техника XGMA: погрузчики, экскаваторы, сервис`,
+    template: `%s | ${site.name}`,
   },
+  description:
+    'Поставка фронтальных погрузчиков, экскаваторов, автогрейдеров и катков XGMA в России. Подбор техники, лизинг, сервис и запчасти. Статьи о технике XGMA.',
+  generator: 'v0.app',
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  themeColor: '#f6f7f9',
 }
 
 export default function RootLayout({
@@ -39,9 +33,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru" className={`${inter.variable} ${robotoCondensed.variable} bg-background`}>
       <body className="antialiased">
+        <SiteHeader />
         {children}
+        <SiteFooter />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
