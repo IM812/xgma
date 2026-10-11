@@ -11,8 +11,8 @@ export default function HomePage() {
       <MachineryHero />
       <CatalogGateway />
       <OwnershipLinks />
-      <LeasingBand />
       <ArticlesPreview />
+      <LeasingBand />
     </main>
   )
 }
