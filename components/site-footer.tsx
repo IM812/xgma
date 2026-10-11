@@ -18,7 +18,7 @@ export function SiteFooter() {
           <div className="flex flex-col gap-6">
             <p className="text-sm text-ink-foreground/50">Каталог техники</p>
             <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-              {categories.slice(0, 10).map((category) => <li key={category.slug}><Link href={`/catalog#${category.slug}`} className="text-sm leading-relaxed text-ink-foreground/80 transition-colors hover:text-accent">{category.name}</Link></li>)}
+              {categories.slice(0, 10).map((category) => <li key={category.slug}><Link href={`/catalog/category/${category.slug}`} className="text-sm leading-relaxed text-ink-foreground/80 transition-colors hover:text-accent">{category.name}</Link></li>)}
             </ul>
           </div>
           <div className="flex flex-col gap-6">

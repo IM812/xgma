@@ -10,8 +10,10 @@ export const site = {
 
 export const nav = [
   { href: '/catalog', label: 'Каталог' },
-  { href: '/#service', label: 'Сервис' },
-  { href: '/#about', label: 'О компании' },
+  { href: '/service', label: 'Сервис' },
+  { href: '/parts', label: 'Запчасти' },
+  { href: '/leasing', label: 'Лизинг' },
+  { href: '/about', label: 'О компании' },
   { href: '/articles', label: 'Статьи' },
   { href: '/contacts', label: 'Контакты' },
 ]

@@ -1,47 +1,14 @@
 import type { Metadata } from 'next'
-import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { site } from '@/lib/site'
 import { RequestForm } from '@/components/request-form'
 
-export const metadata: Metadata = {
-  title: 'Контакты',
-  description: `Свяжитесь с ${site.name}: телефон, почта, заявка на подбор техники XGMA.`,
-}
+export const metadata: Metadata = { title: 'Контакты и подбор техники', description: `Обсудите подбор, поставку и обслуживание техники XGMA с ${site.name}. Телефон, электронная почта, подготовка обращения.` }
 
-export default function ContactsPage() {
-  const items = [
-    { icon: Phone, label: 'Телефон', value: site.phone, href: site.phoneHref },
-    { icon: Mail, label: 'Почта', value: site.email, href: `mailto:${site.email}` },
-    { icon: Clock, label: 'Режим работы', value: site.hours },
-    { icon: MapPin, label: 'Город', value: site.city },
-  ]
-
-  return (
-    <main className="mx-auto grid max-w-6xl gap-12 px-4 py-12 md:grid-cols-2 md:py-16">
-      <div className="flex flex-col gap-8">
-        <h1 className="font-heading text-4xl font-bold uppercase md:text-5xl">Контакты</h1>
-        <ul className="flex flex-col gap-px bg-border">
-          {items.map(({ icon: Icon, label, value, href }) => (
-            <li key={label} className="flex items-center gap-4 bg-card p-5">
-              <Icon className="size-5 shrink-0 text-primary" aria-hidden="true" />
-              <div>
-                <p className="text-xs text-muted-foreground">{label}</p>
-                {href ? (
-                  <a href={href} className="font-heading text-xl font-bold">
-                    {value}
-                  </a>
-                ) : (
-                  <p className="font-heading text-xl font-bold">{value}</p>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex flex-col gap-6">
-        <h2 className="font-heading text-2xl font-bold uppercase">Оставить заявку</h2>
-        <RequestForm />
-      </div>
-    </main>
-  )
+export default async function ContactsPage({ searchParams }: { searchParams: Promise<{ subject?: string; message?: string }> }) {
+  const params = await searchParams
+  const subject = typeof params.subject === 'string' ? params.subject.slice(0, 250) : ''
+  const message = typeof params.message === 'string' ? params.message.slice(0, 3000) : ''
+  return <main className="site-container"><nav className="page-breadcrumb" aria-label="Хлебные крошки"><Link href="/">Главная</Link><span>/</span><span>Контакты</span></nav><header className="flex flex-col gap-5 pb-10"><p className="eyebrow text-primary">ПромТехника XG / На связи</p><h1 className="page-title">ЕСТЬ ЗАДАЧА?<br /><span className="text-primary">ДАВАЙТЕ ОБСУДИМ.</span></h1></header><div className="contact-layout"><section className="contact-info" aria-labelledby="contact-title"><h2 id="contact-title" className="font-heading text-3xl font-semibold">Прямой контакт</h2><div className="flex flex-col gap-8"><div className="flex items-start gap-4"><Phone className="size-5 shrink-0" /><div className="flex flex-col gap-2"><span className="text-sm text-primary-foreground/70">Телефон</span><a href={site.phoneHref} className="font-heading text-3xl font-medium">{site.phone}</a><p className="text-sm text-primary-foreground/70">Международный номер, код страны +86</p></div></div><div className="flex items-start gap-4"><Mail className="size-5 shrink-0" /><div className="flex min-w-0 flex-col gap-2"><span className="text-sm text-primary-foreground/70">Электронная почта</span><a href={`mailto:${site.email}`} className="break-all font-heading text-3xl font-medium">{site.email}</a></div></div><div className="flex items-start gap-4"><Clock className="size-5 shrink-0" /><div className="flex flex-col gap-2"><span className="text-sm text-primary-foreground/70">Часы работы по данным сайта</span><p className="text-base">{site.hours}</p></div></div><div className="flex items-start gap-4"><MapPin className="size-5 shrink-0" /><div className="flex flex-col gap-2"><span className="text-sm text-primary-foreground/70">Город</span><p>{site.city}</p><p className="max-w-sm text-sm leading-relaxed text-primary-foreground/70">Адрес площадки и возможность осмотра техники уточните перед поездкой.</p></div></div></div><p className="border-t border-primary-foreground/25 pt-6 text-sm leading-relaxed text-primary-foreground/70">Подбор машины, лизинг, сервис или запчасти — напишите, что нужно вашему бизнесу.</p></section><section id="request" className="contact-form scroll-mt-40"><div className="flex flex-col gap-3"><h2 className="font-heading text-3xl font-semibold">Начнём с вашего запроса</h2><p className="text-sm leading-relaxed text-muted-foreground">Чем больше деталей о задаче, тем предметнее будет разговор.</p></div><RequestForm key={`${subject}:${message}`} defaultSubject={subject} defaultMessage={message} /></section></div><section className="grid gap-6 pb-16 sm:grid-cols-3">{[{ href: '/catalog', title: 'Выбираете машину?', text: 'Перейти к моделям и характеристикам' }, { href: '/service', title: 'Нужен сервис?', text: 'Подготовить обращение по технике' }, { href: '/parts', title: 'Ищете деталь?', text: 'Узнать, что нужно для подбора' }].map(item => <Link href={item.href} key={item.href} className="flex flex-col gap-3 border-t border-border pt-5"><h2 className="flex items-center justify-between gap-3 font-heading text-2xl font-semibold">{item.title}<ArrowUpRight className="size-5" /></h2><p className="text-sm leading-relaxed text-muted-foreground">{item.text}</p></Link>)}</section></main>
 }

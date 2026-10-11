@@ -2,82 +2,29 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { ArrowUpRight, Check, Truck, Wrench } from 'lucide-react'
 import { getCategory, getMachine, machines } from '@/lib/catalog'
-import { site } from '@/lib/site'
 import { RequestForm } from '@/components/request-form'
+import { MachineCard } from '@/components/machine-card'
 
-export function generateStaticParams() {
-  return machines.map((m) => ({ slug: m.slug }))
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const machine = getMachine((await params).slug)
-  if (!machine) return {}
-  return { title: `XGMA ${machine.model}`, description: machine.summary }
-}
+export function generateStaticParams() { return machines.map(machine => ({ slug: machine.slug })) }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const machine = getMachine((await params).slug); return machine ? { title: `XGMA ${machine.model}`, description: machine.summary } : {} }
 
 export default async function MachinePage({ params }: { params: Promise<{ slug: string }> }) {
   const machine = getMachine((await params).slug)
   if (!machine) notFound()
-  const category = getCategory(machine.category)
+  const category = getCategory(machine.category)!
+  const cutout = ['n-series', 'wheel-loaders'].includes(machine.category)
+  const image = machine.image ?? (cutout ? '/photos/loader-957-cutout.webp' : machine.category === 'excavators' || machine.slug === 'vibratory-roller' ? category.image : undefined)
+  const related = machines.filter(m => m.category === machine.category && m.slug !== machine.slug).slice(0, 3)
 
-  return (
-    <main className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-      <nav aria-label="Навигация" className="mb-6 text-sm text-muted-foreground">
-        <Link href="/catalog" className="hover:text-foreground">
-          Каталог
-        </Link>
-        {' / '}
-        <Link href={`/catalog#${category?.slug}`} className="hover:text-foreground">
-          {category?.name}
-        </Link>
-      </nav>
-      <div className="grid gap-10 md:grid-cols-2">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted">
-          {machine.image ? (
-            <Image
-              src={machine.image || '/placeholder.svg'}
-              alt={`${category?.name} XGMA ${machine.model}`}
-              fill
-              priority
-              className="object-cover"
-              sizes="(min-width: 768px) 50vw, 100vw"
-            />
-          ) : (
-            <div className="flex h-full flex-col justify-between p-8">
-              <span className="w-fit rounded-full bg-card px-3 py-1 text-xs font-semibold">Фото по запросу</span>
-              <span className="break-words font-heading text-5xl font-bold leading-none tracking-tight text-primary md:text-6xl">
-                {machine.model}
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-5">
-          <p className="text-sm font-semibold text-primary">{category?.name}</p>
-          <h1 className="font-heading text-4xl font-bold tracking-tight md:text-5xl">XGMA {machine.model}</h1>
-          <p className="text-lg leading-relaxed text-muted-foreground">{machine.summary}</p>
-          <dl className="grid grid-cols-2 overflow-hidden rounded-xl border border-border bg-card">
-            {machine.specs.map((s) => (
-              <div key={s.label} className="border-b border-border p-4">
-                <dt className="text-xs text-muted-foreground">{s.label}</dt>
-                <dd className="font-heading text-lg font-bold">{s.value}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            Основные характеристики приведены по данным производителя и могут меняться в зависимости от комплектации.
-            Полную спецификацию и цену уточняйте по телефону{' '}
-            <a href={site.phoneHref} className="font-semibold text-foreground">
-              {site.phone}
-            </a>
-            .
-          </p>
-        </div>
-      </div>
-      <section className="mt-16 grid gap-8 border-t border-border pt-12 md:grid-cols-2">
-        <h2 className="font-heading text-3xl font-bold tracking-tight">Запросить цену на {machine.model}</h2>
-        <RequestForm defaultSubject={`XGMA ${machine.model}`} />
-      </section>
-    </main>
-  )
+  return <main>
+    <div className="site-container"><nav aria-label="Хлебные крошки" className="page-breadcrumb"><Link href="/">Главная</Link><span>/</span><Link href="/catalog">Каталог</Link><span>/</span><Link href={`/catalog/category/${category.slug}`}>{category.name}</Link></nav>
+      <section className="model-hero"><div className="model-image">{image ? <><Image src={image} alt={machine.image ? machine.model : `Представитель категории: ${category.name}`} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className={cutout ? 'object-contain p-6' : 'object-cover'} /><span className="machine-photo-note">{machine.image ? 'Фото модели' : 'Фото типа техники · комплектация может отличаться'}</span></> : <div className="machine-technical"><span>XGMA / Технический паспорт</span><strong>{machine.model}</strong><span>Фото конкретной комплектации предоставим по запросу</span></div>}</div><div className="flex flex-col items-start gap-6"><span className="text-sm text-primary">{category.name}</span><h1 className="page-title break-words">{machine.model}</h1><p className="text-base leading-relaxed text-muted-foreground">{machine.summary}</p><div className="flex w-full flex-col gap-3 border-y border-border py-5"><p className="font-heading text-3xl font-semibold">Цена по запросу</p><p className="text-sm leading-relaxed text-muted-foreground">Уточним наличие, комплектацию и срок поставки под ваш объект.</p></div><a href="#request" className="industrial-button">Получить предложение<ArrowUpRight className="size-5" /></a><Link href={`/leasing?model=${encodeURIComponent(machine.model)}`} className="text-link">Рассчитать лизинг<ArrowUpRight className="size-4" /></Link></div></section>
+      <dl className="model-spec-strip">{machine.specs.map(spec => <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl>
+      <section className="interior-section grid gap-10 lg:grid-cols-2"><div className="flex flex-col gap-5"><p className="eyebrow text-primary">Подробно о технике</p><h2 className="font-heading text-4xl font-semibold">КОМПЛЕКТАЦИЯ ПОД ВАШУ РАБОТУ</h2><p className="text-base leading-relaxed text-muted-foreground">{category.description}</p><p className="text-sm leading-relaxed text-muted-foreground">Характеристики приведены по данным каталога и зависят от исполнения. Перед заказом согласуем полную спецификацию, навесное оборудование и условия эксплуатации.</p></div><div className="flex flex-col gap-6">{[{ icon: Check, title: 'Подбор комплектации', text: 'Учитываем материалы, объём работ, климат и особенности площадки.' }, { icon: Truck, title: 'Поставка на объект', text: 'Согласуем логистику и сроки до оформления договора.' }, { icon: Wrench, title: 'Поддержка после покупки', text: 'Техническое обслуживание, подбор запчастей и консультации.' }].map(({ icon: Icon, title, text }) => <div key={title} className="flex items-start gap-4"><Icon className="size-5 shrink-0 text-primary" /><div className="flex flex-col gap-2"><h3 className="font-heading text-2xl font-semibold">{title}</h3><p className="text-sm leading-relaxed text-muted-foreground">{text}</p></div></div>)}</div></section>
+    </div>
+    <section id="request" className="interior-section scroll-mt-40 bg-muted text-foreground"><div className="site-container inquiry-layout"><div className="flex flex-col gap-5"><p className="eyebrow text-primary">Следующий шаг</p><h2 className="font-heading text-4xl font-semibold">ОБСУДИМ<br />{machine.model}?</h2><p className="max-w-sm text-base leading-relaxed text-muted-foreground">Укажите город, задачи и желаемый срок поставки — это поможет подготовить предметное предложение.</p></div><RequestForm defaultSubject={`XGMA ${machine.model}`} /></div></section>
+    {related.length > 0 && <section className="site-container interior-section"><div className="flex flex-wrap items-end justify-between gap-5 pb-8"><h2 className="font-heading text-4xl font-semibold">ЕЩЁ В ЭТОЙ КАТЕГОРИИ</h2><Link href={`/catalog/category/${category.slug}`} className="text-link">Все модели<ArrowUpRight className="size-4" /></Link></div><div className="machine-grid">{related.map(model => <MachineCard key={model.slug} machine={model} />)}</div></section>}
+  </main>
 }

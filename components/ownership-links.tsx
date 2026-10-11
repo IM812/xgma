@@ -1,0 +1,7 @@
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+
+export function OwnershipLinks() {
+  return <section className="ownership-section"><div className="site-container ownership-layout"><div className="ownership-photo"><Image src="/photos/excavator-expo.jpg" alt="Техника XGMA на выставочной площадке" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" /><Link href="/about" className="ownership-caption"><span>За каждой машиной — команда</span><span className="flex items-center gap-2">О компании<ArrowUpRight className="size-4" /></span></Link></div><div className="ownership-content"><span className="eyebrow text-primary">После передачи ключей всё только начинается</span><h2 className="display-heading">НА ВАС — ДЕЛО.<br />НА НАС —<br /><span className="text-primary">ТЕХНИКА.</span></h2><div>{[{ href: '/service', title: 'Сервис и ремонт', text: 'Плановое ТО, диагностика, поддержка на объекте.' }, { href: '/parts', title: 'Запчасти и расходники', text: 'Подбор по модели, артикулу и серийному номеру.' }, { href: '/leasing', title: 'Финансирование', text: 'Лизинг с графиком под задачи вашего бизнеса.' }].map(item => <Link href={item.href} key={item.href} className="ownership-link"><span className="flex flex-col gap-2"><strong className="font-heading text-2xl font-semibold">{item.title}</strong><span className="text-sm leading-relaxed text-muted-foreground">{item.text}</span></span><ArrowUpRight className="size-6 shrink-0" /></Link>)}</div></div></div></section>
+}

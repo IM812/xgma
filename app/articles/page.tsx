@@ -1,33 +1,12 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import { topics } from '@/lib/articles'
 
-export const metadata: Metadata = {
-  title: 'Статьи о технике XGMA',
-  description: 'Обзоры, сравнения, советы по эксплуатации и обслуживанию техники XGMA на русском языке.',
-}
+export const metadata: Metadata = { title: 'Журнал XGMA — выбор и эксплуатация техники', description: 'Обзоры моделей, сравнения, обслуживание и практика работы с техникой XGMA. Материалы для тех, кто выбирает и эксплуатирует спецтехнику.' }
 
 export default function ArticlesPage() {
-  return (
-    <main className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-      <div className="mb-10 flex flex-col gap-3">
-        <h1 className="font-heading text-4xl font-bold uppercase md:text-5xl">Статьи о технике XGMA</h1>
-        <p className="max-w-2xl leading-relaxed text-muted-foreground">
-          Обзоры моделей, советы по выбору, эксплуатации и сервису. Тексты пишет ИИ-редактор и автоматически обновляет их раз в
-          неделю.
-        </p>
-      </div>
-      <ul className="grid gap-px bg-border md:grid-cols-2">
-        {topics.map((t) => (
-          <li key={t.slug} className="bg-card">
-            <Link href={`/articles/${t.slug}`} className="group flex h-full flex-col gap-2 p-6">
-              <span className="font-heading text-xs font-bold uppercase tracking-widest text-primary">{t.rubric}</span>
-              <h2 className="text-pretty font-heading text-xl font-bold leading-snug group-hover:underline">{t.title}</h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">{t.brief}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
-  )
+  const [featured, ...rest] = topics
+  return <main className="site-container"><nav className="page-breadcrumb" aria-label="Хлебные крошки"><Link href="/">Главная</Link><span>/</span><span>Журнал</span></nav><header className="flex flex-col gap-5 pb-10"><p className="eyebrow text-primary">Журнал XGMA / Практика и экспертиза</p><h1 className="page-title">РАЗБИРАЕМ<br /><span className="text-primary">ПО ДЕТАЛЯМ.</span></h1><p className="max-w-xl text-base leading-relaxed text-muted-foreground">О том, как выбирать, обслуживать и использовать большую технику. Без лишних слов — по существу.</p></header>{featured && <Link href={`/articles/${featured.slug}`} className="group grid overflow-hidden bg-primary text-primary-foreground md:grid-cols-[1.1fr_1fr]"><div className="relative min-h-64 md:min-h-96"><Image src="/photos/loaders-lineup.jpg" alt="Фронтальные погрузчики XGMA на выставке" fill priority sizes="(min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-105" /></div><div className="flex flex-col items-start justify-center gap-6 p-7 sm:p-10"><span className="text-sm text-primary-foreground/70">В фокусе / {featured.rubric}</span><h2 className="text-pretty font-heading text-3xl font-semibold leading-tight sm:text-4xl">{featured.title}</h2><p className="text-sm leading-relaxed text-primary-foreground/75">{featured.brief}</p><span className="flex items-center gap-3 text-sm font-medium">Читать материал<ArrowUpRight className="size-5" /></span></div></Link>}<section className="interior-section"><div className="flex flex-wrap items-end justify-between gap-5 pb-8"><h2 className="font-heading text-3xl font-semibold">ВСЕ МАТЕРИАЛЫ</h2><p className="text-sm text-muted-foreground">Выбор · Эксплуатация · Обслуживание</p></div>{rest.map(topic => <Link href={`/articles/${topic.slug}`} key={topic.slug} className="article-row"><span className="text-sm text-primary">{topic.rubric}</span><div className="flex flex-col gap-3"><h3 className="font-heading text-2xl font-semibold sm:text-3xl">{topic.title}</h3><p className="text-sm leading-relaxed text-muted-foreground">{topic.brief}</p></div><ArrowUpRight className="size-6" /></Link>)}<p className="pt-8 text-sm leading-relaxed text-muted-foreground">Материалы подготовлены с помощью ИИ и обновляются автоматически. Технические рекомендации сверяйте с руководством вашей машины и сервисным специалистом.</p></section></main>
 }

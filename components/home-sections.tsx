@@ -68,7 +68,7 @@ export function LeasingBand() {
           </div>
           <div className="flex flex-col items-start gap-6">
             <p className="max-w-sm text-base leading-relaxed">Не откладывайте большие планы. Подберём лизинг с учётом задач бизнеса и комфортной финансовой нагрузки.</p>
-            <Link href="/contacts" className="flex w-full max-w-sm items-center justify-between border-b border-foreground pb-4 text-base font-semibold">Рассчитать лизинг <ArrowUpRight className="size-6" aria-hidden="true" /></Link>
+            <Link href="/leasing" className="flex w-full max-w-sm items-center justify-between border-b border-foreground pb-4 text-base font-semibold">Рассчитать лизинг <ArrowUpRight className="size-6" aria-hidden="true" /></Link>
           </div>
         </div>
       </div>
