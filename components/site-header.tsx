@@ -1,74 +1,51 @@
+'use client'
+
 import Link from 'next/link'
-import { Clock, Mail, Phone } from 'lucide-react'
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { nav, site } from '@/lib/site'
 
 export function SiteHeader() {
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+
   return (
-    <header className="sticky top-0 z-40">
-      <div className="hidden bg-ink text-ink-foreground md:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-2 text-xs">
-          <p className="text-ink-foreground/80">Поставка, лизинг, сервис и запчасти XGMA по всей России</p>
-          <div className="flex items-center gap-6 text-ink-foreground/80">
-            <span className="flex items-center gap-1.5">
-              <Clock className="size-3.5" aria-hidden="true" />
-              {site.hours}
-            </span>
-            <a href={`mailto:${site.email}`} className="flex items-center gap-1.5 hover:text-ink-foreground">
-              <Mail className="size-3.5" aria-hidden="true" />
-              {site.email}
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="border-b border-border bg-card/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3.5 md:px-6">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-md bg-primary font-heading text-lg font-extrabold leading-none text-primary-foreground">
-              XG
-            </span>
-            <span className="flex flex-col gap-0.5 leading-none">
-              <span className="font-heading text-lg font-bold tracking-tight">{site.name}</span>
-              <span className="hidden text-xs text-muted-foreground sm:block">Дилер техники XGMA</span>
+    <header className="site-header">
+      <div className="site-container">
+        <div className="header-inner">
+          <Link href="/" aria-label={`${site.name} — главная`} onClick={() => setOpen(false)} className="flex shrink-0 items-center gap-3">
+            <span className="brand-wordmark font-heading">XG<span className="text-primary">.</span></span>
+            <span className="brand-name flex flex-col gap-1 border-l border-border pl-3">
+              <span className="font-heading text-base font-bold uppercase leading-none tracking-wide">ПромТехника</span>
+              <span className="text-sm leading-none text-muted-foreground">Дилер техники XGMA</span>
             </span>
           </Link>
-          <nav aria-label="Основное меню" className="hidden items-center gap-8 lg:flex">
+          <nav aria-label="Основное меню" className="hidden items-center gap-6 xl:flex">
             {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
-              >
+              <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined} className="nav-link">
                 {item.label}
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-4">
-            <a href={site.phoneHref} className="hidden flex-col items-end leading-tight sm:flex">
-              <span className="font-heading text-lg font-bold">{site.phone}</span>
-              <span className="text-xs text-muted-foreground">Звонок по России</span>
-            </a>
-            <a
-              href={site.phoneHref}
-              className="flex size-10 items-center justify-center rounded-md bg-primary text-primary-foreground sm:hidden"
-            >
-              <Phone className="size-4" aria-hidden="true" />
-              <span className="sr-only">Позвонить</span>
-            </a>
-            <Link
-              href="/contacts"
-              className="hidden rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90 md:block"
-            >
-              Получить цену
-            </Link>
+          <div className="flex items-center gap-6">
+            <a href={site.phoneHref} className="hidden font-heading text-xl font-semibold tracking-tight min-[1360px]:block">{site.phone}</a>
+            <Link href="/contacts" className="header-cta">Обсудить задачу <ArrowUpRight className="size-5" aria-hidden="true" /></Link>
+            <button type="button" className="flex size-11 items-center justify-center border border-border xl:hidden" aria-expanded={open} aria-controls="header-navigation" aria-label={open ? 'Закрыть меню' : 'Открыть меню'} onClick={() => setOpen(!open)}>
+              {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
           </div>
         </div>
-        <nav aria-label="Мобильное меню" className="flex gap-6 overflow-x-auto border-t border-border px-4 py-2.5 lg:hidden">
-          {nav.map((item) => (
-            <Link key={item.href} href={item.href} className="shrink-0 text-sm font-medium text-foreground/80">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        {open && (
+          <nav id="header-navigation" aria-label="Мобильное меню" className="flex flex-col border-t border-border pb-6 xl:hidden">
+            {nav.map((item) => (
+              <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="flex items-center justify-between border-b border-border py-4 font-heading text-2xl font-semibold">
+                {item.label}<ArrowUpRight className="size-5" aria-hidden="true" />
+              </Link>
+            ))}
+            <a href={site.phoneHref} className="pt-5 text-base font-semibold">{site.phone}</a>
+          </nav>
+        )}
       </div>
     </header>
   )

@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className={`${inter.variable} ${robotoCondensed.variable} bg-background`}>
-      <body className="antialiased">
+      <body className="font-sans antialiased">
         <SiteHeader />
         {children}
         <SiteFooter />

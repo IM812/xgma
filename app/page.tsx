@@ -1,24 +1,15 @@
-import {
-  About,
-  ArticlesPreview,
-  CatalogPreview,
-  ContactCta,
-  FeaturedModel,
-  Hero,
-  LeasingBand,
-  ServiceStrip,
-  Services,
-} from '@/components/home-sections'
+import { About, ArticlesPreview, ContactCta, LeasingBand, ServiceStrip, Services } from '@/components/home-sections'
+import { MachineryHero } from '@/components/machinery-hero'
+import { EquipmentShowcase } from '@/components/equipment-showcase'
 
 export const revalidate = 86400
 
 export default function HomePage() {
   return (
     <main>
-      <Hero />
+      <MachineryHero />
       <ServiceStrip />
-      <CatalogPreview />
-      <FeaturedModel />
+      <EquipmentShowcase />
       <Services />
       <LeasingBand />
       <About />

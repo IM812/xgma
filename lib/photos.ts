@@ -5,7 +5,7 @@ const license = 'CC BY 3.0'
 const base = 'https://commons.wikimedia.org/wiki/File:'
 
 export const photoCredits: PhotoCredit[] = [
-  { file: '/photos/loader-957.jpg', title: 'XGMA 957 Loader', author, license, source: `${base}XGMA_957_Loader_20210522.jpg` },
+  { file: '/photos/loader-957.jpg', title: 'XGMA 957 Loader (на первом экране удалён фон)', author, license, source: `${base}XGMA_957_Loader_20210522.jpg` },
   {
     file: '/photos/loaders-lineup.jpg',
     title: 'Loaders, XGMA, 2021 Changsha International Construction Equipment Exhibition',
