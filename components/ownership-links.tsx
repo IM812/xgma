@@ -19,7 +19,7 @@ export function OwnershipLinks() {
         />
         <div className="grid gap-5 md:grid-cols-3 md:gap-6">
           {support.map((item, index) => (
-            <Link key={item.href} href={item.href} className="group flex flex-col gap-8 rounded-lg border border-border bg-background p-6 transition-colors hover:border-primary sm:p-8">
+            <Link key={item.href} href={item.href} className="group flex flex-col gap-6 rounded-lg border border-border bg-background p-5 transition-colors hover:border-primary sm:gap-8 sm:p-8">
               <div className="flex items-center justify-between">
                 <span className="flex size-12 items-center justify-center rounded-lg bg-muted text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
                   <item.icon className="size-6" aria-hidden="true" />

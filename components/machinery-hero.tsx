@@ -15,17 +15,17 @@ const facts = [
 export function MachineryHero() {
   return (
     <section className="bg-muted" aria-labelledby="hero-title">
-      <div className="site-container pb-8 pt-10 lg:pb-12 lg:pt-16">
-        <div className="grid items-center gap-10 lg:grid-cols-[5fr_7fr] lg:gap-14">
-          <div className="flex flex-col items-start gap-7">
+      <div className="site-container pb-6 pt-8 lg:pb-12 lg:pt-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[5fr_7fr] lg:gap-14">
+          <div className="flex flex-col items-start gap-6 sm:gap-7">
             <p className="eyebrow text-primary"><span className="brand-square" aria-hidden="true" />XGMA / Техника для реальных задач</p>
             <h1 id="hero-title" className="home-hero-title">
               <span className="block">МАСШТАБ ВАШИХ</span>
               <span className="block text-primary">ВОЗМОЖНОСТЕЙ.</span>
             </h1>
-            <p className="max-w-md text-lg leading-relaxed text-muted-foreground">Подберём технику под вашу задачу. От первой поставки до сервиса на объекте.</p>
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-              <Link href="/catalog" className="industrial-button">Открыть каталог<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
+            <p className="max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">Подберём технику под вашу задачу. От первой поставки до сервиса на объекте.</p>
+            <div className="flex w-full flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8">
+              <Link href="/catalog" className="industrial-button max-sm:w-full">Открыть каталог<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
               <Link href="/contacts#request" className="text-link">Подобрать с менеджером</Link>
             </div>
           </div>
@@ -33,7 +33,7 @@ export function MachineryHero() {
           <div className="overflow-hidden rounded-lg border border-border bg-background">
             <div className="flex items-center justify-between gap-4 px-5 py-4 text-sm sm:px-7">
               <span className="rounded-full bg-muted px-3 py-1 font-medium">Фронтальные погрузчики</span>
-              <span className="text-muted-foreground">XGMA / N-серия</span>
+              <span className="text-muted-foreground max-sm:hidden">XGMA / N-серия</span>
             </div>
             <div className="relative aspect-[16/9]">
               <Image src="/photos/catalog/xg956n.webp" alt="Фронтальный погрузчик XGMA XG956N" fill priority sizes="(min-width: 1024px) 55vw, 100vw" className="object-contain p-4 sm:p-8" />
