@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { formatNewsDate, type NewsItem } from '@/lib/news'
+import { formatNewsDate, kindLabel, type NewsItem } from '@/lib/news'
 
 export function NewsCard({ item, sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 85vw' }: { item: NewsItem; sizes?: string }) {
   return (
@@ -11,7 +11,7 @@ export function NewsCard({ item, sizes = '(min-width: 1024px) 33vw, (min-width: 
       </div>
       <div className="flex flex-1 flex-col gap-4 p-5 sm:p-6">
         <div className="flex items-center gap-3 text-xs">
-          <span className="rounded-full bg-primary px-3 py-1 font-semibold uppercase tracking-wide text-primary-foreground">Новости</span>
+          <span className="rounded-full bg-primary px-3 py-1 font-semibold uppercase tracking-wide text-primary-foreground">{kindLabel[item.kind ?? 'news']}</span>
           <time dateTime={item.date} className="text-muted-foreground">{formatNewsDate(item.date)}</time>
         </div>
         <h3 className="text-pretty font-heading text-xl font-semibold leading-tight sm:text-2xl">{item.title}</h3>

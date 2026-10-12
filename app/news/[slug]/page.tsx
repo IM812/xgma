@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { NewsCard } from '@/components/news-card'
-import { formatNewsDate, getNews, news } from '@/lib/news'
+import { formatNewsDate, getNews, kindLabel, news } from '@/lib/news'
 import { site } from '@/lib/site'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -31,7 +31,7 @@ export default async function NewsArticlePage({ params }: Props) {
       <nav className="page-breadcrumb" aria-label="Хлебные крошки"><Link href="/">Главная</Link><span>/</span><Link href="/news">Новости</Link></nav>
       <article className="mx-auto flex max-w-3xl flex-col gap-8 pb-4">
         <header className="flex flex-col gap-5">
-          <p className="flex items-center gap-3 text-sm"><span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-foreground">Новости</span><time dateTime={item.date} className="text-muted-foreground">{formatNewsDate(item.date)}</time></p>
+          <p className="flex items-center gap-3 text-sm"><span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-foreground">{kindLabel[item.kind ?? 'news']}</span><time dateTime={item.date} className="text-muted-foreground">{formatNewsDate(item.date)}</time></p>
           <h1 className="text-balance font-heading text-3xl font-semibold leading-tight sm:text-5xl">{item.title}</h1>
           <p className="text-lg leading-relaxed text-muted-foreground">{item.summary}</p>
         </header>
@@ -41,7 +41,10 @@ export default async function NewsArticlePage({ params }: Props) {
         <div className="flex flex-col gap-5 text-base leading-relaxed sm:text-lg">
           {item.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         </div>
-        <p className="border-t border-border pt-5 text-sm leading-relaxed text-muted-foreground">Материал подготовлен на основе публикации Xiamen XGMA Machinery Co., Ltd. {site.name} — официальное представительство заводов XGMA на территории РФ.</p>
+        <p className="border-t border-border pt-5 text-sm leading-relaxed text-muted-foreground">
+          {item.kind === 'article' ? 'Материал подготовлен специалистами ' : 'Материал подготовлен на основе публикации Xiamen XGMA Machinery Co., Ltd. '}
+          {site.name} — официальное представительство заводов XGMA на территории РФ.
+        </p>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link href="/news" className="text-link"><ArrowLeft className="size-5" aria-hidden="true" />Все новости</Link>
           <Link href="/contacts#request" className="industrial-button">Задать вопрос представителю<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
