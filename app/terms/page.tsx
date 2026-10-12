@@ -4,6 +4,7 @@ import { legal, site, trademark } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Пользовательское соглашение',
+  alternates: { canonical: '/terms' },
   description: `Условия использования сайта ${site.name}, информация о товарных знаках и ограничениях ответственности.`,
 }
 

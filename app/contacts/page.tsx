@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react'
 import { site } from '@/lib/site'
 import { RequestForm } from '@/components/request-form'
 
-export const metadata: Metadata = { title: 'Контакты и подбор техники', description: `Обсудите подбор, поставку и обслуживание техники XGMA с ${site.name}. Телефон, электронная почта, подготовка обращения.` }
+export const metadata: Metadata = pageMetadata({ path: '/contacts', title: 'Контакты представительства XGMA в России', description: `Обсудите подбор, поставку и обслуживание техники XGMA с ${site.name}. Телефон, электронная почта, заявка на коммерческое предложение.` })
 
 export default async function ContactsPage({ searchParams }: { searchParams: Promise<{ subject?: string; message?: string }> }) {
   const params = await searchParams

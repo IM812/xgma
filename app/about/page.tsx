@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { site } from '@/lib/site'
 
-export const metadata: Metadata = { title: 'О компании', description: `${site.name} — ${site.status.toLowerCase()}. Поставка, сервис и сопровождение техники XGMA.` }
+export const metadata: Metadata = pageMetadata({ path: '/about', title: 'О компании — официальное представительство заводов XGMA в РФ', description: `${site.name} — ${site.status.toLowerCase()}. Поставка, сервис, запчасти и сопровождение техники XGMA.` })
 
 export default function AboutPage() {
   return <main><div className="site-container"><nav className="page-breadcrumb" aria-label="Хлебные крошки"><Link href="/">Главная</Link><span>/</span><span>О компании</span></nav><section className="pt-4"><div className="grid items-end gap-8 lg:grid-cols-[1.3fr_1fr]"><div className="flex flex-col gap-5"><p className="eyebrow text-primary">Знакомьтесь / {site.name}</p><h1 className="page-title">БОЛЬШАЯ ТЕХНИКА.<br /><span className="text-primary">ПОНЯТНЫЕ ЛЮДИ.</span></h1></div><p className="max-w-lg text-lg leading-relaxed text-muted-foreground">За каждым погрузчиком — чья-то стройка, карьер или производство. Нам важно, чтобы ваша машина решала именно вашу задачу.</p></div><figure className="company-photo"><Image src="/photos/exhibition.jpg" alt="Экспозиция XGMA на международной выставке в Чанше, 2021 год" fill priority className="object-cover" sizes="100vw" /></figure><p className="border-b border-border py-4 text-sm text-muted-foreground">Производитель XGMA на выставке в Чанше, 2021. Фото экспозиции бренда, не площадки дилера.</p></section>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
@@ -6,10 +7,11 @@ import { NewsCard } from '@/components/news-card'
 import { formatNewsDate, kindLabel, news } from '@/lib/news'
 import { site } from '@/lib/site'
 
-export const metadata: Metadata = {
-  title: 'Новости XGMA',
+export const metadata: Metadata = pageMetadata({
+  path: '/news',
+  title: 'Новости XGMA — новая техника, поставки, выставки',
   description: `Новости заводов XGMA: новая техника, поставки, участие в выставках и проектах. Публикует ${site.name} — официальное представительство XGMA в России.`,
-}
+})
 
 export default function NewsPage() {
   const [featured, ...rest] = news

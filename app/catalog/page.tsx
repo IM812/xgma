@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import { CatalogBrowser } from '@/components/catalog-browser'
 import { categories, machines } from '@/lib/catalog'
 
-export const metadata: Metadata = { title: 'Каталог техники XGMA', description: 'Модельный ряд XGMA с поиском и фильтрами: погрузчики, экскаваторы, дорожная и складская техника. Характеристики и подбор комплектации.' }
+export const metadata: Metadata = pageMetadata({ path: '/catalog', title: 'Купить технику XGMA — каталог моделей и характеристики', description: 'Каталог техники XGMA от официального представительства в России: фронтальные погрузчики, экскаваторы, дорожная и складская техника. Характеристики, подбор комплектации, поставка.' })
 
 export default async function CatalogPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const { q } = await searchParams

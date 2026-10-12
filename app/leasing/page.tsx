@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import { Check, Plus } from 'lucide-react'
 import { LeasingCalculator } from '@/components/leasing-calculator'
 
-export const metadata: Metadata = { title: 'Лизинг техники XGMA — предварительный расчёт', description: 'Рассчитайте ориентировочный бюджет на лизинг техники XGMA. Настройте стоимость, аванс, срок и расчётную ставку.' }
+export const metadata: Metadata = pageMetadata({ path: '/leasing', title: 'Лизинг спецтехники XGMA — калькулятор платежа', description: 'Лизинг погрузчиков и экскаваторов XGMA: ориентировочный расчёт платежа онлайн. Настройте стоимость, аванс, срок и ставку, затем отправьте заявку представителю.' })
 
 export default async function LeasingPage({ searchParams }: { searchParams: Promise<{ model?: string }> }) {
   const params = await searchParams

@@ -3,7 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { JsonLd } from '@/components/json-ld'
 import { NewsCard } from '@/components/news-card'
+import { articleLd, breadcrumbLd, pageMetadata } from '@/lib/seo'
 import { formatNewsDate, getNews, kindLabel, news } from '@/lib/news'
 import { site } from '@/lib/site'
 
@@ -17,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const item = getNews(slug)
   if (!item) return {}
-  return { title: item.title, description: item.summary, openGraph: { images: [item.image] } }
+  return pageMetadata({ path: `/news/${item.slug}`, title: item.title, description: item.summary, image: item.image, type: 'article', publishedTime: item.date })
 }
 
 export default async function NewsArticlePage({ params }: Props) {
@@ -28,6 +30,10 @@ export default async function NewsArticlePage({ params }: Props) {
 
   return (
     <main className="site-container">
+      <JsonLd data={[
+        articleLd({ title: item.title, description: item.summary, path: `/news/${item.slug}`, image: item.image, date: item.date, kind: item.kind ?? 'news' }),
+        breadcrumbLd([{ name: 'Главная', path: '/' }, { name: 'Новости', path: '/news' }, { name: item.title, path: `/news/${item.slug}` }]),
+      ]} />
       <nav className="page-breadcrumb" aria-label="Хлебные крошки"><Link href="/">Главная</Link><span>/</span><Link href="/news">Новости</Link></nav>
       <article className="mx-auto flex max-w-3xl flex-col gap-8 pb-4">
         <header className="flex flex-col gap-5">

@@ -4,6 +4,8 @@ import { Inter, Roboto_Condensed } from 'next/font/google'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { MobileActionBar } from '@/components/mobile-action-bar'
+import { JsonLd } from '@/components/json-ld'
+import { organizationLd, siteUrl, websiteLd } from '@/lib/seo'
 import { site } from '@/lib/site'
 import './globals.css'
 
@@ -21,8 +23,16 @@ export const metadata: Metadata = {
   },
   description:
     'Сягонг Рус — официальное представительство заводов XGMA на территории РФ. Каталог техники XGMA: погрузчики, экскаваторы, дорожная техника. Поставка, сервис, запчасти, лизинг и новости завода.',
+  metadataBase: new URL(siteUrl),
+  applicationName: site.name,
   icons: { icon: '/brand/xgma-logo.png', apple: '/brand/xgma-logo.png' },
-  generator: 'v0.app',
+  openGraph: { type: 'website', locale: 'ru_RU', siteName: site.name, images: [{ url: '/photos/loaders-lineup.jpg' }] },
+  twitter: { card: 'summary_large_image' },
+  formatDetection: { telephone: true, email: true, address: false },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+  },
 }
 
 export const viewport: Viewport = {
@@ -41,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${inter.variable} ${robotoCondensed.variable} bg-background`}>
       <body className="font-sans antialiased">
+        <JsonLd data={[organizationLd, websiteLd]} />
         <SiteHeader />
         {children}
         <SiteFooter />

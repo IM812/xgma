@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import { ArrowUpRight, Check } from 'lucide-react'
 import { RequestForm } from '@/components/request-form'
 
-export const metadata: Metadata = { title: 'Запчасти и расходники XGMA', description: 'Подбор запчастей для техники XGMA по артикулу, модели и серийному номеру. Фильтры, гидравлика, трансмиссия, ходовая часть.' }
+export const metadata: Metadata = pageMetadata({ path: '/parts', title: 'Запчасти XGMA — купить оригинальные запчасти и расходники', description: 'Запчасти для техники XGMA от официального представительства: подбор по артикулу, модели и серийному номеру. Фильтры, гидравлика, трансмиссия, ходовая часть.' })
 const groups = [
   { name: 'Фильтры и расходники', items: 'Масляные, топливные, воздушные и гидравлические фильтры. Комплекты для планового ТО.' },
   { name: 'Двигатель и охлаждение', items: 'Элементы системы охлаждения, ремни, прокладки и комплектующие двигателя.' },

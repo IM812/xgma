@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Plus } from 'lucide-react'
 import { RequestForm } from '@/components/request-form'
 
-export const metadata: Metadata = { title: 'Сервис и ремонт XGMA', description: 'Техническое обслуживание, диагностика и ремонт техники XGMA. Подготовка к сезону, подбор расходников, обращение в сервис.' }
+export const metadata: Metadata = pageMetadata({ path: '/service', title: 'Сервис и ремонт техники XGMA — ТО, диагностика, гарантия', description: 'Техническое обслуживание, диагностика и ремонт техники XGMA от официального представительства. Подготовка к сезону, подбор расходников, обращение в сервис.' })
 
 const services = [
   { title: 'Плановое техническое обслуживание', text: 'Работы по регламенту производителя: замена масел и фильтров, проверка узлов, смазка и регулировки. Интервалы определяем по модели, наработке и руководству по эксплуатации.' },

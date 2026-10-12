@@ -7,9 +7,11 @@ import { getCategory, getMachine, machines } from '@/lib/catalog'
 import { RequestForm } from '@/components/request-form'
 import { MachineCard } from '@/components/machine-card'
 import { catalogImages } from '@/lib/catalog-images'
+import { JsonLd } from '@/components/json-ld'
+import { breadcrumbLd, pageMetadata, productLd } from '@/lib/seo'
 
 export function generateStaticParams() { return machines.map(machine => ({ slug: machine.slug })) }
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const machine = getMachine((await params).slug); return machine ? { title: `XGMA ${machine.model}`, description: machine.summary } : {} }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const machine = getMachine((await params).slug); return machine ? pageMetadata({ path: `/catalog/${machine.slug}`, title: `XGMA ${machine.model} — характеристики и цена`, description: `${machine.summary} Официальное представительство XGMA в России: поставка, сервис, лизинг.`, image: catalogImages[machine.slug]?.src }) : {} }
 
 export default async function MachinePage({ params }: { params: Promise<{ slug: string }> }) {
   const machine = getMachine((await params).slug)
@@ -19,6 +21,7 @@ export default async function MachinePage({ params }: { params: Promise<{ slug: 
   const related = machines.filter(m => m.category === machine.category && m.slug !== machine.slug).slice(0, 3)
 
   return <main>
+    <JsonLd data={[productLd({ name: `XGMA ${machine.model}`, description: machine.summary, path: `/catalog/${machine.slug}`, image: image.src, category: category.name, specs: machine.specs }), breadcrumbLd([{ name: 'Главная', path: '/' }, { name: 'Каталог', path: '/catalog' }, { name: category.name, path: `/catalog/category/${category.slug}` }, { name: `XGMA ${machine.model}`, path: `/catalog/${machine.slug}` }])]} />
     <div className="site-container"><nav aria-label="Хлебные крошки" className="page-breadcrumb"><Link href="/">Главная</Link><span>/</span><Link href="/catalog">Каталог</Link><span>/</span><Link href={`/catalog/category/${category.slug}`}>{category.name}</Link></nav>
       <section className="model-hero"><figure className="model-image"><Image src={image.src} alt={image.alt} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="catalog-product-image" /><figcaption className="model-image-caption">{image.note ?? 'Каталожная фотография XGMA. Комплектация уточняется при заказе.'}</figcaption></figure><div className="flex flex-col items-start gap-6"><span className="text-sm text-primary">{category.name}</span><h1 className="page-title break-words">{machine.model}</h1><p className="text-base leading-relaxed text-muted-foreground">{machine.summary}</p><div className="flex w-full flex-col gap-3 border-y border-border py-5"><p className="font-heading text-3xl font-semibold">Цена по запросу</p><p className="text-sm leading-relaxed text-muted-foreground">Уточним наличие, комплектацию и срок поставки под ваш объект.</p></div><a href="#request" className="industrial-button">Получить предложение<ArrowUpRight className="size-5" /></a><Link href={`/leasing?model=${encodeURIComponent(machine.model)}`} className="text-link">Рассчитать лизинг<ArrowUpRight className="size-4" /></Link></div></section>
       <dl className="model-spec-strip">{machine.specs.map(spec => <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl>
