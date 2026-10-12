@@ -1,4 +1,4 @@
-import { ArticlesPreview, LeasingBand } from '@/components/home-sections'
+import { ArticlesPreview, LeasingBand, NewsPreview, Representation } from '@/components/home-sections'
 import { MachineryHero } from '@/components/machinery-hero'
 import { CatalogGateway } from '@/components/catalog-gateway'
 import { OwnershipLinks } from '@/components/ownership-links'
@@ -10,7 +10,9 @@ export default function HomePage() {
     <main>
       <MachineryHero />
       <CatalogGateway />
+      <Representation />
       <OwnershipLinks />
+      <NewsPreview />
       <ArticlesPreview />
       <LeasingBand />
     </main>
