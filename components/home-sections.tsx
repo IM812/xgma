@@ -96,7 +96,7 @@ export function About() {
           </div>
           <figure>
             <div className="relative aspect-[5/4] overflow-hidden bg-muted">
-              <Image src="/photos/exhibition.jpg" alt="Экспозиция производителя XGMA на международной выс��авке в Чанше" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+              <Image src="/photos/exhibition.jpg" alt="Экспозиция производителя XGMA на международной выставке в Чанше" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
             </div>
             <figcaption className="flex flex-wrap justify-between gap-3 border-b border-border py-4 text-sm text-muted-foreground"><span>XGMA на международной выставке</span><span>Чанша, 2021</span></figcaption>
           </figure>
