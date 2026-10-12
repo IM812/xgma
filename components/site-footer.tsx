@@ -14,7 +14,8 @@ export function SiteFooter() {
               <span className="flex items-center bg-white p-2"><BrandLogo className="h-16" /></span>
               <span className="font-heading text-xl font-bold uppercase leading-tight">{site.name}</span>
             </Link>
-            <p className="max-w-xs text-sm leading-relaxed text-ink-foreground/65">Поставка, лизинг, сервис и запчасти для техники XGMA.</p>
+            <p className="max-w-xs text-sm font-medium leading-relaxed text-accent">{site.status}</p>
+            <p className="max-w-xs text-sm leading-relaxed text-ink-foreground/65">Поставка, лизинг, сервис и запчасти для техники XGMA напрямую от представителя завода.</p>
             <a href={site.phoneHref} className="font-heading text-2xl font-semibold">{site.phone}</a>
             <a href={`mailto:${site.email}`} className="flex min-h-11 items-center gap-3 text-sm">{site.email}<ArrowUpRight className="size-4" aria-hidden="true" /></a>
           </div>

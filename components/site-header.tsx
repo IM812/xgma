@@ -24,9 +24,9 @@ export function SiteHeader() {
       <div className="site-container masthead">
         <Link href="/" aria-label={`${site.name} — главная`} className="masthead-brand">
           <BrandLogo priority className="h-10 sm:h-14" />
-          <span className="flex flex-col gap-1"><span className="font-heading text-lg font-bold uppercase leading-none">Спецтехника XGMA</span><span className="hidden text-sm text-muted-foreground sm:block">Поставка и сервис</span></span>
+          <span className="flex flex-col gap-1"><span className="font-heading text-lg font-bold uppercase leading-none sm:text-xl">{site.name}</span><span className="text-[11px] leading-tight text-muted-foreground sm:text-xs">Официальное представительство<br />заводов XGMA в РФ</span></span>
         </Link>
-        <p className="hidden text-sm leading-relaxed text-muted-foreground xl:block">Поставка и поддержка XGMA<br />На всех этапах работы</p>
+        <p className="hidden max-w-56 text-sm leading-relaxed text-muted-foreground xl:block">Прямые поставки, сервис и запчасти от представителя завода</p>
         <div className="flex items-center gap-2 sm:gap-7">
           <a href={site.phoneHref} className="hidden items-center gap-2 text-sm font-medium lg:flex"><Phone className="size-4" />{site.phone}</a>
           <a href={site.phoneHref} aria-label={`Позвонить: ${site.phone}`} className="header-call lg:hidden"><Phone className="size-5" aria-hidden="true" /></a>

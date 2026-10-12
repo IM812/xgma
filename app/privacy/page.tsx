@@ -4,6 +4,7 @@ import { legal, site } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Политика конфиденциальности',
+  alternates: { canonical: '/privacy' },
   description: `Политика в отношении обработки персональных данных на сайте ${site.name} в соответствии с Федеральным законом № 152-ФЗ.`,
 }
 

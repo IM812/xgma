@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { categories, getCategory, machines } from '@/lib/catalog'
 import { CatalogBrowser } from '@/components/catalog-browser'
+import { pageMetadata } from '@/lib/seo'
 
 export function generateStaticParams() { return categories.map(category => ({ slug: category.slug })) }
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const category = getCategory((await params).slug); return category ? { title: `${category.name} XGMA`, description: category.description } : {} }
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> { const category = getCategory((await params).slug); return category ? pageMetadata({ path: `/catalog/category/${category.slug}`, title: `${category.name} XGMA — купить в России`, description: `${category.description} Официальное представительство XGMA: поставка, сервис, запчасти, лизинг.`, image: category.image }) : {} }
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const category = getCategory((await params).slug)

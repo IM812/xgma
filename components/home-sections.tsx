@@ -1,8 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Plus } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BadgeCheck, Factory, FileText, Plus, ShieldCheck, Wrench } from 'lucide-react'
 import { weeklyTopics } from '@/lib/articles'
+import { news } from '@/lib/news'
 import { site } from '@/lib/site'
+import { NewsCard } from '@/components/news-card'
 import { RequestForm } from '@/components/request-form'
 import { SectionHead } from '@/components/section-head'
 
@@ -86,10 +88,10 @@ export function About() {
       <div className="site-container">
         <div className="about-layout">
           <div className="flex flex-col items-start gap-7">
-            <p className="eyebrow text-primary">Спецтехника XGMA / О нас</p>
+            <p className="eyebrow text-primary">{site.name} / Представительство XGMA</p>
             <h2 className="display-heading">ТЯЖЁЛАЯ ТЕХНИКА.<br />ЧЕЛОВЕЧЕСКИЙ<br /><span className="text-primary">ПОДХОД.</span></h2>
             <p className="max-w-md text-base leading-relaxed text-muted-foreground">Мы говорим на языке ваших задач. Что грузить, сколько копать, где работать — а не просто какой погрузчик купить.</p>
-            <p className="max-w-md text-base leading-relaxed text-muted-foreground">{site.name} — поставка и сервис техники XGMA. От первой консультации до следующего техобслуживания у вас есть команда, к которой можно обратиться.</p>
+            <p className="max-w-md text-base leading-relaxed text-muted-foreground">{site.name} — {site.status.toLowerCase()}. От первой консультации до следующего техобслуживания у вас есть команда, к которой можно обратиться.</p>
             <Link href="/contacts" className="text-link">Давайте познакомимся <ArrowUpRight className="size-5" aria-hidden="true" /></Link>
           </div>
           <figure>
@@ -98,6 +100,53 @@ export function About() {
             </div>
             <figcaption className="flex flex-wrap justify-between gap-3 border-b border-border py-4 text-sm text-muted-foreground"><span>XGMA на международной выставке</span><span>Чанша, 2021</span></figcaption>
           </figure>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const representationPoints = [
+  { icon: Factory, title: 'Связь с заводом', text: 'Работаем напрямую с заводами XGMA: вопросы по комплектации, срокам и поставке решаем с производителем.' },
+  { icon: ShieldCheck, title: 'Оригинальная техника', text: 'Поставляем серийную технику и запчасти XGMA, подбираем модель под задачу и условия эксплуатации в России.' },
+  { icon: Wrench, title: 'Сервис по стандартам завода', text: 'Пусконаладка, техническое обслуживание и подбор деталей по модели и серийному номеру машины.' },
+  { icon: FileText, title: 'Договор на территории РФ', text: 'Условия поставки, гарантии и сервиса фиксируем в документах с российским юридическим лицом.' },
+]
+
+export function Representation() {
+  return (
+    <section id="representative" className="section-space scroll-mt-24 bg-foreground text-background" aria-labelledby="representative-title">
+      <div className="site-container">
+        <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
+          <div className="flex flex-col items-start gap-6">
+            <p className="eyebrow text-accent"><BadgeCheck className="size-5" aria-hidden="true" />Официальный статус</p>
+            <h2 id="representative-title" className="display-heading">ПРЕДСТАВИТЕЛЬ<br /><span className="text-accent">ЗАВОДОВ XGMA.</span></h2>
+            <p className="max-w-md text-base leading-relaxed text-background/75">{site.name} — официальное представительство заводов XGMA на территории Российской Федерации. Мы не просто продаём технику, а представляем производителя перед российскими заказчиками.</p>
+            <Link href="/about" className="flex min-h-11 items-center gap-3 text-sm font-semibold text-accent">О представительстве<ArrowUpRight className="size-5" aria-hidden="true" /></Link>
+          </div>
+          <ul className="grid gap-px overflow-hidden rounded-lg bg-background/15 sm:grid-cols-2">
+            {representationPoints.map(({ icon: Icon, title, text }) => (
+              <li key={title} className="flex flex-col gap-4 bg-foreground p-6 sm:p-8">
+                <Icon className="size-7 text-accent" aria-hidden="true" />
+                <h3 className="font-heading text-xl font-semibold">{title}</h3>
+                <p className="text-sm leading-relaxed text-background/70">{text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function NewsPreview() {
+  const latest = news.slice(0, 3)
+  return (
+    <section className="section-space">
+      <div className="site-container">
+        <SectionHead eyebrow="Новости XGMA" title="СОБЫТИЯ ЗАВОДА." action={{ href: '/news', label: 'Все новости' }} />
+        <div className="mobile-snap md:grid md:grid-cols-3 md:gap-6">
+          {latest.map((item) => <NewsCard key={item.slug} item={item} />)}
         </div>
       </div>
     </section>
