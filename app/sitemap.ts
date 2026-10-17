@@ -11,6 +11,7 @@ const staticPages: { path: string; priority: number; changeFrequency: 'weekly' |
   { path: '/service', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/parts', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/leasing', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/dealers', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/about', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/news', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/contacts', priority: 0.6, changeFrequency: 'yearly' },
