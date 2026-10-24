@@ -1,12 +1,10 @@
 import type { Metadata } from 'next'
 import { legal, site, trademark } from '@/lib/site'
 
-const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL
+// Canonical, sitemap и микроразметка всегда указывают на боевой домен, даже на *.vercel.app.
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://xgma-rus.com').replace(/\/$/, '')
 
-// Задайте NEXT_PUBLIC_SITE_URL (например, https://xgma-rus.ru) в Vars, когда будет боевой домен.
-export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? (productionHost ? `https://${productionHost}` : 'https://syagong-rus.ru')
-).replace(/\/$/, '')
+export const isIndexable = !process.env.VERCEL_ENV || process.env.VERCEL_ENV === 'production'
 
 export const absoluteUrl = (path = '/') => `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`
 
@@ -22,9 +20,21 @@ type PageMetadataInput = {
   noindex?: boolean
 }
 
-export function pageMetadata({ path, title, description, image = defaultImage, type = 'website', publishedTime, noindex }: PageMetadataInput): Metadata {
+const maxTitleWithBrand = 70
+const maxDescription = 160
+
+function clampAtWord(text: string, max: number) {
+  if (text.length <= max) return text
+  const cut = text.slice(0, max - 1)
+  return `${cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s,.;:—–-]+$/, '')}…`
+}
+
+export function pageMetadata({ path, title, description: rawDescription, image = defaultImage, type = 'website', publishedTime, noindex }: PageMetadataInput): Metadata {
+  const description = clampAtWord(rawDescription, maxDescription)
+  // Long headlines drop the brand suffix so search snippets keep the meaningful part.
+  const fitsWithBrand = `${title} | ${site.name}`.length <= maxTitleWithBrand
   return {
-    title,
+    title: fitsWithBrand ? title : { absolute: title },
     description,
     alternates: { canonical: path },
     robots: noindex ? { index: false, follow: true } : undefined,
@@ -52,7 +62,7 @@ export const organizationLd = {
   logo: absoluteUrl('/brand/xgma-logo.png'),
   description: `${site.status}. ${trademark.notice}`,
   email: site.email,
-  telephone: site.phone,
+  telephone: site.phoneE164,
   address: { '@type': 'PostalAddress', addressLocality: site.city, addressCountry: 'RU' },
   areaServed: { '@type': 'Country', name: 'Россия' },
   brand: { '@type': 'Brand', name: 'XGMA' },
@@ -60,7 +70,7 @@ export const organizationLd = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'sales',
-    telephone: site.phone,
+    telephone: site.phoneE164,
     email: site.email,
     areaServed: 'RU',
     availableLanguage: 'ru',

@@ -5,7 +5,8 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { MobileActionBar } from '@/components/mobile-action-bar'
 import { JsonLd } from '@/components/json-ld'
-import { organizationLd, siteUrl, websiteLd } from '@/lib/seo'
+import { YandexMetrika } from '@/components/yandex-metrika'
+import { isIndexable, organizationLd, siteUrl, websiteLd } from '@/lib/seo'
 import { site } from '@/lib/site'
 import './globals.css'
 
@@ -22,18 +23,21 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    'Сягонг Рус — официальное представительство заводов XGMA на территории РФ. Каталог техники XGMA: погрузчики, экскаваторы, дорожная техника. Поставка, сервис, запчасти, лизинг и новости завода.',
+    'Официальное представительство заводов XGMA в России: погрузчики, экскаваторы, дорожная техника. Поставка, сервис, оригинальные запчасти и лизинг.',
   metadataBase: new URL(siteUrl),
   applicationName: site.name,
   icons: { icon: '/brand/xgma-logo.png', apple: '/brand/xgma-logo.png' },
   openGraph: { type: 'website', locale: 'ru_RU', siteName: site.name, images: [{ url: '/photos/loaders-lineup.jpg' }] },
   twitter: { card: 'summary_large_image' },
   formatDetection: { telephone: true, email: true, address: false },
+  robots: isIndexable ? { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } : { index: false, follow: false },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
     yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
   },
 }
+
+const metrikaId = Number(process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID) || null
 
 export const viewport: Viewport = {
   themeColor: '#ffffff',
@@ -57,6 +61,7 @@ export default function RootLayout({
         <SiteFooter />
         <MobileActionBar />
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === 'production' && isIndexable && metrikaId && <YandexMetrika id={metrikaId} />}
       </body>
     </html>
   )
