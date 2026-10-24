@@ -16,7 +16,7 @@ const factoryNews: NewsItem[] = [
     slug: 'xiamen-industrial-expo-2026-xg975ev-xg965ev-l',
     title: 'XGMA показала электрические погрузчики XG975EV и XG965EV-L на промышленной выставке в Сямэне',
     date: '2026-04-09',
-    image: '/news/xiamen-expo-2026.png',
+    image: '/news/xiamen-expo-2026.webp',
     imageAlt: 'Электрические колёсные погрузчики XGMA XG975EV и XG965EV-L на выставке в Сямэне',
     summary:
       'На Сямэньской промышленной выставке завод представил два новых электрических погрузчика: 7-тонный XG975EV и 6-тонный XG965EV-L.',
@@ -31,7 +31,7 @@ const factoryNews: NewsItem[] = [
     slug: 'k-seriya-pogruzchikov-start-postavok-2026',
     title: 'XGMA отправила первую крупную партию погрузчиков новой K-серии',
     date: '2026-01-23',
-    image: '/news/k-series-dispatch.png',
+    image: '/news/k-series-dispatch.webp',
     imageAlt: 'Партия колёсных погрузчиков XGMA K-серии на площадке завода перед отправкой заказчикам',
     summary:
       '23 января на северной производственной базе в Цзяоцзо прошла церемония отправки первой крупной партии погрузчиков K-серии, включая XG920Kplus.',
@@ -45,7 +45,7 @@ const factoryNews: NewsItem[] = [
     slug: 'ctt-expo-2025-moskva-xgma',
     title: 'XGMA приняла участие в выставке CTT Expo 2025 в Москве',
     date: '2025-05-27',
-    image: '/news/ctt-expo-2025.png',
+    image: '/news/ctt-expo-2025.webp',
     imageAlt: 'Электрический погрузчик и экскаватор XGMA на выставке строительной техники CTT Expo в Москве',
     summary:
       'На главной выставке строительной техники России завод показал широкую линейку техники, включая электрический погрузчик XG958EV.',
@@ -59,7 +59,7 @@ const factoryNews: NewsItem[] = [
     slug: 'bauma-2025-xg958ev-ii-evropa',
     title: 'XGMA на bauma 2025: электрический погрузчик XG958EV II и меморандумы с европейскими партнёрами',
     date: '2025-04-11',
-    image: '/news/bauma-2025.png',
+    image: '/news/bauma-2025.webp',
     imageAlt: 'Электрический погрузчик XGMA на выставке bauma 2025 в Мюнхене',
     summary:
       'На крупнейшей в мире выставке строительной техники завод показал электрический погрузчик XG958EV II и подписал меморандумы с десятками партнёров из ЕС.',
