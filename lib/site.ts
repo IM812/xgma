@@ -7,7 +7,7 @@ export const site = {
   phone: '+7 (985) 418-88-14',
   phoneE164: '+79854188814',
   phoneHref: 'tel:+79854188814',
-  email: 'info@syagong-rus.ru',
+  email: 'info@xgma-rus.com',
   hours: 'Пн–Пт, 9:00–18:00 (МСК)',
   city: 'Москва',
 }
