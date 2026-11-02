@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getTopic, topics } from '@/lib/articles'
 import { getArticle } from '@/lib/article-content'
+import { articleTexts } from '@/lib/article-texts'
 import { pageMetadata } from '@/lib/seo'
 import { site } from '@/lib/site'
 
@@ -16,8 +17,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const topic = getTopic((await params).slug)
   if (!topic) return {}
-  // Тексты создаёт модель без редактуры, поэтому не отдаём их в индекс, пока человек не проверит материал.
-  return pageMetadata({ path: `/articles/${topic.slug}`, title: topic.title, description: topic.brief, noindex: true })
+  return pageMetadata({ path: `/articles/${topic.slug}`, title: topic.title, description: topic.brief, type: 'article', publishedTime: articleTexts[topic.slug]?.generatedAt })
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
