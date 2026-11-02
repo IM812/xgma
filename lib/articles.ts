@@ -1,3 +1,5 @@
+import { articleTexts } from './article-texts'
+
 export type Topic = {
   slug: string
   title: string
@@ -5,7 +7,7 @@ export type Topic = {
   brief: string
 }
 
-export const topics: Topic[] = [
+const allTopics: Topic[] = [
   {
     slug: 'elektropogruzchik-xg958ev',
     title: 'Электрический погрузчик XGMA XG958EV: кому он выгоден',
@@ -103,6 +105,9 @@ export const topics: Topic[] = [
     brief: 'Как работает лизинг спецтехники, документы, налоговые преимущества.',
   },
 ]
+
+// Публикуем только темы с готовым текстом: на сервере нет доступа к AI-генерации.
+export const topics: Topic[] = allTopics.filter((t) => t.slug in articleTexts)
 
 export function getTopic(slug: string) {
   return topics.find((t) => t.slug === slug)
