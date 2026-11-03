@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { topics } from '@/lib/articles'
 import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = pageMetadata({ path: '/articles', title: 'Журнал XGMA — выбор и эксплуатация техники', description: 'Обзоры моделей, сравнения, обслуживание и практика работы с техникой XGMA. Материалы для тех, кто выбирает и эксплуатирует спецтехнику.', noindex: true })
+export const metadata: Metadata = pageMetadata({ path: '/articles', title: 'Журнал XGMA — выбор и эксплуатация техники', description: 'Обзоры моделей, сравнения, обслуживание и практика работы с техникой XGMA. Материалы для тех, кто выбирает и эксплуатирует спецтехнику.' })
 
 export default function ArticlesPage() {
   const [featured, ...rest] = topics

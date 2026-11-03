@@ -1,3 +1,5 @@
+import { articleTexts } from './article-texts'
+
 export type Topic = {
   slug: string
   title: string
@@ -5,7 +7,31 @@ export type Topic = {
   brief: string
 }
 
-export const topics: Topic[] = [
+const allTopics: Topic[] = [
+  {
+    slug: 'elektropogruzchik-xg958ev',
+    title: 'Электрический погрузчик XGMA XG958EV: кому он выгоден',
+    rubric: 'Обзор',
+    brief: 'Аккумулятор, зарядка, работа в мороз, стоимость владения по сравнению с дизельным XG958H.',
+  },
+  {
+    slug: 'obkatka-novoy-tehniki-xgma',
+    title: 'Обкатка новой спецтехники XGMA: первые 100 моточасов',
+    rubric: 'Эксплуатация',
+    brief: 'Режимы нагрузки, первая замена масел и фильтров, контроль затяжки и что нельзя делать при обкатке.',
+  },
+  {
+    slug: 'neispravnosti-gidravliki-pogruzchika',
+    title: 'Неисправности гидравлики погрузчика XGMA: признаки и диагностика',
+    rubric: 'Сервис',
+    brief: 'Медленный подъём стрелы, перегрев масла, течи, шум насоса — причины и порядок проверки.',
+  },
+  {
+    slug: 'mini-pogruzchik-xgma',
+    title: 'Мини-погрузчики XGMA с бортовым поворотом: где они выгоднее большой техники',
+    rubric: 'Выбор техники',
+    brief: 'Задачи для мини-погрузчика, навесное оборудование, колёса или гусеницы, сравнение с фронтальным погрузчиком.',
+  },
   {
     slug: 'obzor-xg955h',
     title: 'Обзор фронтального погрузчика XGMA XG955H',
@@ -79,6 +105,9 @@ export const topics: Topic[] = [
     brief: 'Как работает лизинг спецтехники, документы, налоговые преимущества.',
   },
 ]
+
+// Публикуем только темы с готовым текстом: на сервере нет доступа к AI-генерации.
+export const topics: Topic[] = allTopics.filter((t) => t.slug in articleTexts)
 
 export function getTopic(slug: string) {
   return topics.find((t) => t.slug === slug)

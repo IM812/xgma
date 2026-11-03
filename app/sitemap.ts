@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { categories, machines } from '@/lib/catalog'
 import { news } from '@/lib/news'
+import { topics } from '@/lib/articles'
+import { articleTexts } from '@/lib/article-texts'
 import { absoluteUrl } from '@/lib/seo'
 
 const reviewed = new Date('2026-10-12')
@@ -44,6 +46,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(item.date),
       changeFrequency: 'yearly' as const,
       priority: 0.5,
+    })),
+    {
+      url: absoluteUrl('/articles'),
+      lastModified: new Date(Math.max(...topics.map((t) => Date.parse(articleTexts[t.slug].generatedAt)))),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    },
+    ...topics.map((topic) => ({
+      url: absoluteUrl(`/articles/${topic.slug}`),
+      lastModified: new Date(articleTexts[topic.slug].generatedAt),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
     })),
   ]
 }
