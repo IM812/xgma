@@ -8,30 +8,28 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { site } from '@/lib/site'
+import { submitLead, type LeadStatus } from '@/lib/submit-lead'
 
 export function DealerForm() {
   const id = useId()
-  const [prepared, setPrepared] = useState(false)
+  const [status, setStatus] = useState<LeadStatus>('idle')
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const subject = `Заявка на дилерство XGMA: ${data.get('region') || 'регион не указан'}`
-    const body = [
-      `ФИО: ${data.get('name')}`,
-      `Компания: ${data.get('company') || '—'}`,
-      `E-mail: ${data.get('email')}`,
-      `Телефон: ${data.get('phone')}`,
-      `Город / регион: ${data.get('region')}`,
-      '',
-      String(data.get('message') ?? ''),
-    ].join('\n')
-    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    setPrepared(true)
+    const form = event.currentTarget
+    setStatus('sending')
+    try {
+      await submitLead('dealer', form)
+      form.reset()
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="request-form flex flex-col gap-5">
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
       <FieldGroup>
         <FieldGroup className="grid sm:grid-cols-2">
           <Field><FieldLabel htmlFor={`${id}-name`}>ФИО</FieldLabel><Input id={`${id}-name`} name="name" required autoComplete="name" maxLength={100} placeholder="Как к вам обращаться" /></Field>
@@ -52,8 +50,12 @@ export function DealerForm() {
         <input type="checkbox" name="consent-data" required className="mt-1 size-4 shrink-0 accent-primary" />
         <span>Согласен на обработку персональных данных (ФЗ № 152-ФЗ)</span>
       </label>
-      <Button type="submit" size="lg">Отправить заявку<ArrowUpRight data-icon="inline-end" /></Button>
-      <p className="text-sm leading-relaxed text-muted-foreground" aria-live="polite">{prepared ? `Письмо подготовлено. Отправьте его в открывшемся почтовом приложении. Если приложение не открылось, напишите на ${site.email}.` : 'Форма откроет ваше почтовое приложение с готовым письмом. Заявка будет отправлена только после подтверждения в приложении.'}</p>
+      <Button type="submit" size="lg" disabled={status === 'sending'}>{status === 'sending' ? 'Отправляем…' : 'Отправить заявку'}<ArrowUpRight data-icon="inline-end" /></Button>
+      <p className={status === 'error' ? 'text-sm leading-relaxed text-destructive' : 'text-sm leading-relaxed text-muted-foreground'} role="status" aria-live="polite">
+        {status === 'success' && 'Спасибо! Заявка отправлена. Мы свяжемся с вами в ближайшее время.'}
+        {status === 'error' && `Не удалось отправить заявку. Попробуйте ещё раз или напишите на ${site.email}.`}
+        {(status === 'idle' || status === 'sending') && 'Заявка уйдёт напрямую в отдел продаж, почтовое приложение не потребуется.'}
+      </p>
     </form>
   )
 }
