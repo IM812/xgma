@@ -1,6 +1,7 @@
 import type { Article } from './generate-article'
+import { moreArticleTexts } from './article-texts-more'
 
-export const articleTexts: Record<string, Article> = {
+const baseArticleTexts: Record<string, Article> = {
   'elektropogruzchik-xg958ev': {
     generatedAt: '2026-11-02T09:00:00.000Z',
     lead: 'XG958EV — электрическая версия 5-тонного фронтального погрузчика XGMA. Он работает тише, не выбрасывает выхлоп и обходится дешевле в ежедневной эксплуатации, но подходит не для каждой площадки. Разберём, где электропогрузчик окупается, а где лучше остаться на дизельном XG958H.',
@@ -273,3 +274,5 @@ export const articleTexts: Record<string, Article> = {
     ],
   },
 }
+
+export const articleTexts: Record<string, Article> = { ...baseArticleTexts, ...moreArticleTexts }

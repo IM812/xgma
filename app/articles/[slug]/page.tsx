@@ -1,11 +1,20 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getTopic, topics } from '@/lib/articles'
+import { JsonLd } from '@/components/json-ld'
+import { defaultArticleImage, getTopic, topics } from '@/lib/articles'
 import { getArticle } from '@/lib/article-content'
 import { articleTexts } from '@/lib/article-texts'
-import { pageMetadata } from '@/lib/seo'
+import { articleLd, breadcrumbLd, faqLd, pageMetadata } from '@/lib/seo'
 import { site } from '@/lib/site'
+
+const serviceLinks = [
+  { href: '/catalog', label: 'Каталог техники XGMA' },
+  { href: '/service', label: 'Сервис и гарантия' },
+  { href: '/parts', label: 'Оригинальные запчасти' },
+  { href: '/leasing', label: 'Лизинг и калькулятор платежа' },
+]
 
 // Texts are pre-generated into content/articles (scripts/generate-articles.ts) and prerendered at build time.
 export const maxDuration = 60
@@ -17,7 +26,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const topic = getTopic((await params).slug)
   if (!topic) return {}
-  return pageMetadata({ path: `/articles/${topic.slug}`, title: topic.title, description: topic.brief, type: 'article', publishedTime: articleTexts[topic.slug]?.generatedAt })
+  return pageMetadata({ path: `/articles/${topic.slug}`, title: topic.title, description: topic.brief, type: 'article', publishedTime: articleTexts[topic.slug]?.generatedAt, image: topic.image ?? defaultArticleImage.src })
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -30,20 +39,38 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     month: 'long',
     year: 'numeric',
   })
-  const related = topics.filter((t) => t.slug !== topic.slug).slice(0, 3)
+  const others = topics.filter((t) => t.slug !== topic.slug)
+  const related = [...others.filter((t) => t.rubric === topic.rubric), ...others.filter((t) => t.rubric !== topic.rubric)].slice(0, 3)
+  const image = { src: topic.image ?? defaultArticleImage.src, alt: topic.imageAlt ?? defaultArticleImage.alt }
+  const path = `/articles/${topic.slug}`
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 md:py-16">
-      <Link href="/articles" className="text-sm text-muted-foreground hover:text-foreground">
-        {'← Все статьи'}
-      </Link>
+      <JsonLd
+        data={[
+          articleLd({ title: topic.title, description: topic.brief, path, image: image.src, date: article.generatedAt, kind: 'article' }),
+          breadcrumbLd([{ name: 'Главная', path: '/' }, { name: 'Журнал', path: '/articles' }, { name: topic.title, path }]),
+          faqLd(article.faq),
+        ]}
+      />
+      <nav aria-label="Хлебные крошки" className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">Главная</Link>
+        <span aria-hidden="true">/</span>
+        <Link href="/articles" className="hover:text-foreground">Журнал</Link>
+        <span aria-hidden="true">/</span>
+        <span className="text-foreground">{topic.rubric}</span>
+      </nav>
       <article className="mt-6 flex flex-col gap-8">
         <header className="flex flex-col gap-4 border-b border-border pb-8">
           <span className="font-heading text-xs font-bold uppercase tracking-widest text-primary">{topic.rubric}</span>
           <h1 className="text-balance font-heading text-4xl font-bold leading-tight md:text-5xl">{topic.title}</h1>
           <p className="text-xs text-muted-foreground">
-            <time dateTime={article.generatedAt}>{`Обновлено ${updated}`}</time>
+            <time dateTime={article.generatedAt}>{`Опубликовано ${updated}`}</time>
+            {` · ${site.name}, официальное представительство XGMA`}
           </p>
+          <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+            <Image src={image.src} alt={image.alt} fill priority sizes="(min-width: 768px) 768px, 100vw" className="object-cover" />
+          </div>
           <p className="text-lg leading-relaxed">{article.lead}</p>
         </header>
 
@@ -86,6 +113,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             Оставить заявку
           </Link>
         </aside>
+
+        <nav aria-label="Разделы сайта" className="flex flex-col gap-3">
+          <p className="font-heading text-sm font-bold uppercase tracking-widest text-muted-foreground">Полезные разделы</p>
+          <ul className="grid gap-2 sm:grid-cols-2">
+            {serviceLinks.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="block border border-border p-4 font-semibold hover:border-primary hover:text-primary">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </article>
 
       <nav aria-label="Другие статьи" className="mt-12 flex flex-col gap-3 border-t border-border pt-8">

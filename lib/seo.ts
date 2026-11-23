@@ -100,6 +100,18 @@ export function breadcrumbLd(items: { name: string; path: string }[]) {
   }
 }
 
+export function faqLd(items: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }
+}
+
 export function productLd(input: { name: string; description: string; path: string; image: string; category: string; specs: { label: string; value: string }[] }) {
   return {
     '@context': 'https://schema.org',
